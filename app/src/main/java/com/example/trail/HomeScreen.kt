@@ -18,30 +18,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-
-
 @Composable
 fun HomeScreen(modifier:Modifier = Modifier)  {
     var bookViewModel: BooksViewModel = viewModel()
-    var BookSearch = remember{mutableStateOf("")}
+    //var BookSearch = remember{mutableStateOf("")}
 //    var selectedFilter = remember { mutableStateOf("All") }
     Column(
         modifier = Modifier
@@ -58,8 +54,8 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
             )
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
-                value=BookSearch.value,
-                onValueChange = {BookSearch.value = it},
+                value=bookViewModel.BookSearch.value,
+                onValueChange = {bookViewModel.BookSearch.value = it},
                 modifier = Modifier
                     .fillMaxWidth(),
 
@@ -129,7 +125,7 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 3.dp),
-                horizontalArrangement = Arrangement.spacedBy(1.dp)
+                horizontalArrangement = Arrangement.Center
             ){
                 listOf("All","Hardcover","Paperback","eBook").forEach { items ->
                     val isSelected = items == bookViewModel.selectedFilter.value
@@ -150,11 +146,11 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
 
         val filteredBooks = when (bookViewModel.selectedFilter.value) {
             "Hardcover" -> {
-                if(BookSearch.value.isEmpty()) {
+                if(bookViewModel.BookSearch.value.isEmpty()) {
                     bookViewModel.bookList.filter { it.format == "Hardcover" }
                 }else {
                     var result = bookViewModel.bookList.filter {
-                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
                                 it.format == "Hardcover"
                     }
                     if(result.isEmpty()){
@@ -166,11 +162,11 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
 
             }
             "Paperback" -> {
-                if(BookSearch.value.isEmpty()) {
+                if(bookViewModel.BookSearch.value.isEmpty()) {
                     bookViewModel.bookList.filter { it.format == "Paperback" }
                 }else {
                     var result = bookViewModel.bookList.filter {
-                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
                                 it.format == "Paperback"
                     }
                     if(result.isEmpty()){
@@ -182,11 +178,11 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
 
             }
             "eBook" -> {
-                if(BookSearch.value.isEmpty()) {
+                if(bookViewModel.BookSearch.value.isEmpty()) {
                     bookViewModel.bookList.filter { it.format == "eBook" }
                 }else {
                     var result = bookViewModel.bookList.filter {
-                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
                                 it.format == "eBook"
                     }
                     if(result.isEmpty()){
@@ -198,11 +194,11 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
 
             }
             else -> {
-                if(BookSearch.value.isEmpty()) {
+                if(bookViewModel.BookSearch.value.isEmpty()) {
                     bookViewModel.bookList.toList()
                 }else {
                     var result = bookViewModel.bookList.filter {
-                        it.author_name.contains(BookSearch.value, ignoreCase = true)
+                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true)
                     }
                     if(result.isEmpty()){
                         emptyList()
@@ -251,6 +247,10 @@ fun BookCover(book: BookModel) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(Color(0xF4E9DA))
+        .padding(12.dp)
+        .clip(RoundedCornerShape(8.dp))   // clip first
+        .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(8.dp)) // then border
+        .background(Color(0xFFFBF6EF))
         .padding(12.dp)){
         Row {
             Box(

@@ -117,5 +117,6 @@ class BooksViewModel : ViewModel(){
     }
     var selectedFilter =  mutableStateOf("All")
     //var BookSearch = mutableStateOf("")
+    var BookSearch = mutableStateOf("")
 
 }
