@@ -5,6 +5,7 @@ data class BookModel(
     var author_name: String,
     var book_pages: Int,
     var year: String,
-    var coverColor: Long
+    var coverColor: Long,
+    var format: String
 )
 
