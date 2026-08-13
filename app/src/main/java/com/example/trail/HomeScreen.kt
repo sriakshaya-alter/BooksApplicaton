@@ -43,12 +43,10 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
     var bookViewModel: BooksViewModel = viewModel()
     var BookSearch = remember{mutableStateOf("")}
 //    var selectedFilter = remember { mutableStateOf("All") }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxSize()
-            .padding(20.dp)
             .background(Color(0xF4E9DA))
             .padding(20.dp)
 
@@ -56,14 +54,15 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
             Text(
             text = "Discover",
             fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
                 value=BookSearch.value,
                 onValueChange = {BookSearch.value = it},
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(35.dp),
+                    .fillMaxWidth(),
+
             placeholder = { Text("Search", color = Color.Black) },
             leadingIcon = {
                 Icon(
@@ -79,7 +78,7 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
                     unfocusedBorderColor = Color(0xFFE8DCCC),
                   focusedBorderColor = Color(0xFFC2542F)
                 ),
-                singleLine = true
+                singleLine = true,
             )
 //        Box {
 //            Row(
@@ -129,10 +128,10 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 12.dp),
+                    .padding(top = 3.dp),
                 horizontalArrangement = Arrangement.spacedBy(1.dp)
             ){
-                listOf("All","HardCover","Paperback","eBook").forEach { items ->
+                listOf("All","Hardcover","Paperback","eBook").forEach { items ->
                     val isSelected = items == bookViewModel.selectedFilter.value
                     OutlinedButton(
                         onClick = { bookViewModel.selectedFilter.value = items},
@@ -142,7 +141,7 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
                         ),
                         border = BorderStroke(1.dp, Color(0xFFE8DCCC))
                     ) {
-                        Text(text = items, color = Color(0xFF2A211B), fontSize = 10.sp)
+                        Text(text = items, color = Color(0xFF2A211B), fontSize = 8.sp)
                     }
 
                 }
@@ -150,16 +149,89 @@ fun HomeScreen(modifier:Modifier = Modifier)  {
         }
 
         val filteredBooks = when (bookViewModel.selectedFilter.value) {
-            "Hardcover" -> bookViewModel.bookList.filter { it.format == "Hardcover" }
-            "Paperback" -> bookViewModel.bookList.filter { it.format == "Paperback" }
-            "eBook" -> bookViewModel.bookList.filter{it.format == "eBook"}
-            else -> bookViewModel.bookList.toList()
-        }
-        LazyColumn {
-            items(filteredBooks) { book ->
-                BookCover(book)
+            "Hardcover" -> {
+                if(BookSearch.value.isEmpty()) {
+                    bookViewModel.bookList.filter { it.format == "Hardcover" }
+                }else {
+                    var result = bookViewModel.bookList.filter {
+                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                                it.format == "Hardcover"
+                    }
+                    if(result.isEmpty()){
+                        emptyList()
+                    }else{
+                        result.toList()
+                    }
+                }
+
+            }
+            "Paperback" -> {
+                if(BookSearch.value.isEmpty()) {
+                    bookViewModel.bookList.filter { it.format == "Paperback" }
+                }else {
+                    var result = bookViewModel.bookList.filter {
+                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                                it.format == "Paperback"
+                    }
+                    if(result.isEmpty()){
+                        emptyList()
+                    }else{
+                        result.toList()
+                    }
+                }
+
+            }
+            "eBook" -> {
+                if(BookSearch.value.isEmpty()) {
+                    bookViewModel.bookList.filter { it.format == "eBook" }
+                }else {
+                    var result = bookViewModel.bookList.filter {
+                        it.author_name.contains(BookSearch.value, ignoreCase = true) &&
+                                it.format == "eBook"
+                    }
+                    if(result.isEmpty()){
+                        emptyList()
+                    }else{
+                        result.toList()
+                    }
+                }
+
+            }
+            else -> {
+                if(BookSearch.value.isEmpty()) {
+                    bookViewModel.bookList.toList()
+                }else {
+                    var result = bookViewModel.bookList.filter {
+                        it.author_name.contains(BookSearch.value, ignoreCase = true)
+                    }
+                    if(result.isEmpty()){
+                        emptyList()
+                    }else{
+                        result.toList()
+                    }
+                }
+
             }
         }
+
+        LazyColumn {
+            if (filteredBooks.isEmpty()) {
+                item {
+                    Text(
+                        text = "No books found",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                items(filteredBooks) { book ->
+                    BookCover(book)
+                }
+            }
+        }
+
 
     }
 }
