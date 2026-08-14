@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
 // no version — let BOM manage it
     implementation("androidx.navigation:navigation-compose")
+    implementation(libs.androidx.ui.graphics)
 
 
     testImplementation(libs.junit)

@@ -13,3 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val AppBackground = Color(0xFFFBF6EF)
 
 val AuthorNameStyling = Color(0xFF8A7A6B)
+
+val ChipFillColor = Color(0xFFF4E9DA)
+
+val OnBackgroundText = Color(0xFF2A211B)
