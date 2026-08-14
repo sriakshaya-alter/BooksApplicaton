@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trail.data.BookModel
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.draw.shadow
 
 @Composable
 fun BookCard(book: BookModel,onClick:() ->Unit) {
@@ -35,23 +38,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
 
         ) {
         Row {
-            Box(
-                modifier = Modifier
-                    .width(60.dp)
-                    .height(80.dp)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
-                    .background(Color(book.coverColor)),
-                contentAlignment = Alignment.Center,
-
-                ) {
-                Text(
-                    text = book.bookName,
-                    color = Color.White,
-                    fontSize = 8.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(4.dp)
-                )
-            }
+            BookImage(book)
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
@@ -91,6 +78,34 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
             modifier = Modifier.padding(top = 12.dp),
             color = Color(0xFFE8DCCC),
             thickness = 1.dp
+        )
+    }
+}
+
+@Composable
+fun BookImage(book: BookModel,
+              width: Dp = 60.dp,    // ← default small size
+              height: Dp = 80.dp ){
+    Box(
+        modifier = Modifier
+            .width(width)
+            .height(height)
+            .shadow(                          // ← shadow effect
+                elevation = 8.dp,
+                shape = RoundedCornerShape(8.dp),
+                clip = false
+            )
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+            .background(Color(book.coverColor)),
+            contentAlignment = Alignment.Center,
+
+        ) {
+        Text(
+            text = book.bookName,
+            color = Color.White,
+            fontSize = 8.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(4.dp)
         )
     }
 }

@@ -65,6 +65,12 @@ fun AppNavigation() {
                 val book = bookViewModel.bookList.find { it.bookName == bookName }
                 book?.let { BookDetailScreen(book = it, navController = navController) }
             }
+            //composable("details/{bookName}")
+            //
+            //
+            //
+            //
+            //
         }
     }
 }

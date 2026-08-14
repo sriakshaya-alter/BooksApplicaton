@@ -49,7 +49,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxSize()
-            .background(Color(0xF4E9DA))
+            .background(Color(0xFBF6EF))
             .padding(20.dp)
 
     ) {
