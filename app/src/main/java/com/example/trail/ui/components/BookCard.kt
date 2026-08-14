@@ -1,6 +1,8 @@
 package com.example.trail.ui.components
 
+
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.example.trail.data.BookModel
 
 @Composable
-fun BookCard(book: BookModel) {
+fun BookCard(book: BookModel,onClick:() ->Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xF4E9DA))
+            .clickable { onClick() }
             .padding(12.dp),
 
         ) {
@@ -89,6 +92,5 @@ fun BookCard(book: BookModel) {
             color = Color(0xFFE8DCCC),
             thickness = 1.dp
         )
-
     }
 }

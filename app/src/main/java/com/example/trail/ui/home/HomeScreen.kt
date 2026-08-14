@@ -35,11 +35,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.trail.data.BookModel
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
-    val bookViewModel: BooksViewModel = viewModel()
+fun HomeScreen(modifier: Modifier = Modifier.Companion,
+               navController: NavController,
+               bookViewModel: BooksViewModel)  {
+
     //var BookSearch = remember{mutableStateOf("")}
 //    var selectedFilter = remember { mutableStateOf("All") }
     Column(
@@ -237,8 +240,12 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
                 }
             } else {
                 items(filteredBooks) { book ->
-                    BookCard(book)
+                    BookCard(
+                        book = book,
+                        onClick = { navController.navigate("detail/${book.bookName}") }
+                    )
                 }
+
             }
         }
 
