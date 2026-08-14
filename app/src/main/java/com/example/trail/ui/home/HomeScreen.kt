@@ -146,7 +146,9 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                         modifier = Modifier
                             .padding(5.dp)
                     ) {
-                        Text(text = item, color = Color(0xFF2A211B), fontSize = 8.sp)
+                        Text(text = item,
+                            color = if (isSelected) Color.White else Color(0xFF2A211B),
+                            fontSize = 8.sp)
                     }
                 }
             }

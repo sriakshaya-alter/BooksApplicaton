@@ -22,10 +22,15 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.filled.FavoriteBorder
+
 
 
 
@@ -73,6 +78,7 @@ fun BookDetailScreen(book: BookModel, navController: NavController) {
                 Spacer(modifier = Modifier.width(8.dp))
                 ChipItem(text = book.year)
             }
+            BookActionButtons()
         }
 
     }
@@ -94,3 +100,27 @@ fun ChipItem(text: String) {
         )
     }
 }
+
+@Composable
+fun BookActionButtons() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth().padding(16.dp)
+    ) {
+        Button(
+            onClick = { },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC2542F)),
+            modifier = Modifier.weight(1f)
+        ) { Text("Want to read", color = Color.White, fontSize = 12.sp) }
+
+        OutlinedButton(onClick = { }, modifier = Modifier.weight(1f)) {
+            Text("Read", fontSize = 12.sp)
+        }
+
+        IconButton(onClick = { }) {
+            Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite", tint = Color(0xFF2A211B))
+        }
+    }
+}
+
