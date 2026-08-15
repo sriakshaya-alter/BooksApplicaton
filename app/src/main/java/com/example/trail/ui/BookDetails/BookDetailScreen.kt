@@ -32,10 +32,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material.icons.filled.FavoriteBorder
 
 
-
-
-
-
 @Composable
 fun BookDetailScreen(book: BookModel, navController: NavController) {
     Column(

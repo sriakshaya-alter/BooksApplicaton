@@ -32,7 +32,7 @@ fun AppNavigation() {
 
     Scaffold(
         bottomBar = {
-            // hide bottom bar on detail screen
+
             if (currentRoute != "detail/{bookName}") {
                 NavigationBar {
                     NavigationBarItem(
@@ -60,17 +60,11 @@ fun AppNavigation() {
                 HomeScreen(navController = navController, bookViewModel = bookViewModel)
             }
             composable("mybooks") { MyBooksScreen() }
-            composable("detail/{bookName}") { backStackEntry ->
+            composable("detail/{bookName}",) { backStackEntry ->
                 val bookName = backStackEntry.arguments?.getString("bookName") ?: ""
                 val book = bookViewModel.bookList.find { it.bookName == bookName }
                 book?.let { BookDetailScreen(book = it, navController = navController) }
             }
-            //composable("details/{bookName}")
-            //
-            //
-            //
-            //
-            //
         }
     }
 }
