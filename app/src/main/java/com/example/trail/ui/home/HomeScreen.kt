@@ -1,6 +1,6 @@
 package com.example.trail.ui.home
 import com.example.trail.ui.components.BookCard
-
+import com.example.trail.ui.components.SelectionItem
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -136,21 +136,13 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             {
                 listOf("All", "Hardcover", "Paperback", "eBook").forEach { item ->
                     val isSelected = item == bookViewModel.selectedFilter.value
-                    OutlinedButton(
-                        onClick = { bookViewModel.onFilterChange(item) },
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = if (isSelected) Color(0xFFC2542F) else Color.Transparent
-                        ),
-                        border = BorderStroke(1.dp, Color(0xFFE8DCCC)),
-                        modifier = Modifier
-                            .padding(5.dp)
-                    ) {
-                        Text(text = item,
-                            color = if (isSelected) Color.White else Color(0xFF2A211B),
-                            fontSize = 8.sp)
-                    }
+                    SelectionItem(
+                        text = item,
+                        isSelected = isSelected,
+                        onClick = { bookViewModel.onFilterChange(item) }
+                    )
                 }
+
             }
         }
 

@@ -1,7 +1,7 @@
 package com.example.trail.ui.home
 
 import com.example.trail.data.mockBooks
-
+import com.example.trail.data.UserBookState
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -34,6 +34,30 @@ class BooksViewModel : ViewModel() {
     fun onSearchChange(query: String) {
         _bookSearch.value = query
     }
+
+    private val _userBookStates = mutableStateListOf<UserBookState>()
+    val userBookStates: List<UserBookState> = _userBookStates
+
+    fun toggleFavourite(isbn: String) {
+        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+        if (index != -1) {
+            _userBookStates[index] = _userBookStates[index].copy(
+                isFavourite = !_userBookStates[index].isFavourite
+            )
+        } else {
+            _userBookStates.add(UserBookState(isbn, isFavourite = true))
+        }
+    }
+
+    fun setReadStatus(isbn: String, status: String) {
+        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+        if (index != -1) {
+            _userBookStates[index] = _userBookStates[index].copy(readStatus = status)
+        } else {
+            _userBookStates.add(UserBookState(isbn, readStatus = status))
+        }
+    }
+
 
 
 }

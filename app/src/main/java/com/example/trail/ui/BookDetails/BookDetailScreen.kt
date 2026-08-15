@@ -1,5 +1,7 @@
 package com.example.trail.ui.BookDetails
 
+import com.example.trail.ui.components.ChipItem
+import com.example.trail.ui.components.SelectionItem
 import com.example.trail.ui.theme.ChipFillColor
 import com.example.trail.ui.theme.OnBackgroundText
 import com.example.trail.ui.components.BookImage
@@ -30,10 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material.icons.filled.FavoriteBorder
+import com.example.trail.ui.components.SelectionItem
 
 
 @Composable
 fun BookDetailScreen(book: BookModel, navController: NavController) {
+    val userState = bookViewModel.userBookStates.find { it.bookName == book.bookName }
+    val readStatus = userState?.readStatus ?: "none"
+    val isFavourite = userState?.isFavourite ?: false
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -68,55 +74,46 @@ fun BookDetailScreen(book: BookModel, navController: NavController) {
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                ChipItem(text = book.format)
-                Spacer(modifier = Modifier.width(8.dp))            // ← space between chips
-                ChipItem(text = "${book.bookPages} pp")
-                Spacer(modifier = Modifier.width(8.dp))
-                ChipItem(text = book.year)
+                listOf(book.format,"${book.bookPages} pp",book.year).forEach{item ->
+                    SelectionItem(backgroundColor = ChipFillColor,
+                        text = item)
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                }
+//                SelectionItem( backgroundColor = ChipFillColor,
+//                    text = book.format)
+//                Spacer(modifier = Modifier.width(8.dp))            // ← space between chips
+//                SelectionItem( backgroundColor = ChipFillColor,
+//                    text = "${book.bookPages} pp")
+//                Spacer(modifier = Modifier.width(8.dp))
+//                SelectionItem( backgroundColor = ChipFillColor,
+//                    text = book.year)
             }
-            BookActionButtons()
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                listOf("Want to read", "Read").forEach { item ->
+                    SelectionItem(
+                        text = item,
+                        isSelected = item == "Want to read",
+                        onClick = {bookViewModel.setReadStatus(book.isbn,item)},
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                IconButton(onClick = { bookViewModel.toggleFavourite(book.isbn) }) {
+                    Icon(
+                        imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        tint = if (isFavourite) Color(0xFFC2542F) else Color(0xFF2A211B)
+                    )
+                }
+            }
+
         }
 
     }
 }
 
-@Composable
-fun ChipItem(text: String) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(50.dp))
-            .background(ChipFillColor)
-            .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(50.dp))
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-    ) {
-        Text(
-            text = text,
-            fontSize = 12.sp,
-            color = OnBackgroundText
-        )
-    }
-}
-
-@Composable
-fun BookActionButtons() {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
-    ) {
-        Button(
-            onClick = { },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC2542F)),
-            modifier = Modifier.weight(1f)
-        ) { Text("Want to read", color = Color.White, fontSize = 12.sp) }
-
-        OutlinedButton(onClick = { }, modifier = Modifier.weight(1f)) {
-            Text("Read", fontSize = 12.sp)
-        }
-
-        IconButton(onClick = { }) {
-            Icon(Icons.Default.FavoriteBorder, contentDescription = "Favourite", tint = Color(0xFF2A211B))
-        }
-    }
-}
 
