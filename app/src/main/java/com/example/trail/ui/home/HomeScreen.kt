@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.trail.data.BookFilter
 import com.example.trail.data.BookModel
 
 @Composable
@@ -131,7 +132,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
                 horizontalArrangement = Arrangement.Center
             )
             {
-                listOf("All", "Hardcover", "Paperback", "eBook").forEach { item ->
+                BookFilter.entries.forEach { item ->
                     val isSelected = item == bookViewModel.selectedFilter.value
                     OutlinedButton(
                         onClick = { bookViewModel.onFilterChange(item) },
@@ -143,7 +144,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
                         modifier = Modifier
                             .padding(5.dp)
                     ) {
-                        Text(text = item, color = Color(0xFF2A211B), fontSize = 8.sp)
+                        Text(text = item.displayName, color = Color(0xFF2A211B), fontSize = 8.sp)
                     }
                 }
             }
@@ -216,8 +217,8 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
 //            }
 //        }
         val filteredBooks = bookViewModel.bookList.filter { book ->
-            val matchesFormat = bookViewModel.selectedFilter.value == "All" ||
-                    book.format == bookViewModel.selectedFilter.value
+            val matchesFormat = bookViewModel.selectedFilter.value == BookFilter.ALL ||
+                    book.format == bookViewModel.selectedFilter.value.displayName
             val matchesSearch = bookViewModel.bookSearch.value.isEmpty() ||
                     book.bookName.contains(bookViewModel.bookSearch.value, ignoreCase = true) ||
                     book.authorName.contains(bookViewModel.bookSearch.value, ignoreCase = true)
