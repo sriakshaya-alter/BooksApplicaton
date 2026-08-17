@@ -1,6 +1,6 @@
 package com.example.trail.ui.home
 import com.example.trail.ui.components.BookCard
-
+import com.example.trail.ui.theme.SelectedColor
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,9 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trail.data.BookFilter
-import com.example.trail.data.BookModel
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
@@ -95,7 +91,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
                         onClick = { bookViewModel.onFilterChange(item) },
                         shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = if (isSelected) Color(0xFFC2542F) else Color.Transparent
+                            containerColor = if (isSelected) SelectedColor else Color.Transparent
                         ),
                         border = BorderStroke(1.dp, Color(0xFFE8DCCC)),
                         modifier = Modifier
