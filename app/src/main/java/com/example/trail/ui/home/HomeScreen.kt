@@ -235,7 +235,9 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 }
             } else {
                 items(filteredBooks) { book ->
-                    val isBookmarked = bookViewModel.userBookStates.any { it.isbn == book.isbn }
+                    val isBookmarked = bookViewModel.userBookStates.any {
+                        it.isbn == book.isbn && (it.isFavourite || it.readStatus != "none")
+                    }
                     BookCard(
                         book = book,
                         onClick = { navController.navigate("detail/${book.bookName}") },

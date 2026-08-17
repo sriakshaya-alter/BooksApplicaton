@@ -37,6 +37,12 @@ class BooksViewModel : ViewModel() {
 
     private val _userBookStates = mutableStateListOf<UserBookState>()
     val userBookStates: List<UserBookState> = _userBookStates
+    private fun removeIfNoAction(index: Int) {
+        val state = _userBookStates[index]
+        if (state.readStatus == "none" && !state.isFavourite) {
+            _userBookStates.removeAt(index)
+        }
+    }
 
     fun toggleFavourite(isbn: String) {
         val index = _userBookStates.indexOfFirst { it.isbn == isbn }
@@ -44,6 +50,7 @@ class BooksViewModel : ViewModel() {
             _userBookStates[index] = _userBookStates[index].copy(
                 isFavourite = !_userBookStates[index].isFavourite
             )
+            removeIfNoAction(index)   // ← reuse
         } else {
             _userBookStates.add(UserBookState(isbn, isFavourite = true))
         }
@@ -52,13 +59,14 @@ class BooksViewModel : ViewModel() {
     fun setReadStatus(isbn: String, status: String) {
         val index = _userBookStates.indexOfFirst { it.isbn == isbn }
         if (index != -1) {
-            val currentStatus = _userBookStates[index].readStatus
-            val newStatus = if (currentStatus == status) "none" else status
+            val newStatus = if (_userBookStates[index].readStatus == status) "none" else status
             _userBookStates[index] = _userBookStates[index].copy(readStatus = newStatus)
+            removeIfNoAction(index)   // ← reuse
         } else {
             _userBookStates.add(UserBookState(isbn, readStatus = status))
         }
     }
+
     private val _myBooksFilter = mutableStateOf("All")
     val myBooksFilter: State<String> = _myBooksFilter
 

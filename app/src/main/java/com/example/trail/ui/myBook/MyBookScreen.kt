@@ -57,7 +57,8 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        Row( horizontalArrangement = Arrangement.Center,
+        Row( modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             ) {
             listOf("All","Want to Read","Read","Favourites").forEach{item ->
@@ -72,6 +73,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
                 SelectionItem(text =  "$item $count",
                     isSelected = isSelected,
                     modifier = Modifier.padding(2.dp),
+
                     onClick = { bookViewModel.onMyBooksFilterChange(item)})
             }
         }
