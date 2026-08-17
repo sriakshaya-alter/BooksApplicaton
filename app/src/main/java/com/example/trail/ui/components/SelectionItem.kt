@@ -1,6 +1,7 @@
 package com.example.trail.ui.components
 
 import com.example.trail.ui.theme.AppBackground
+import com.example.trail.ui.theme.OnBackgroundText
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
+import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
 fun SelectionItem(
@@ -36,7 +39,7 @@ fun SelectionItem(
     Box(
         modifier
             .clip(RoundedCornerShape(50.dp))
-            .background(if (isSelected) Color(0xFFC2542F) else backgroundColor)
+            .background(if (isSelected) MaterialTheme.colorScheme.primary else backgroundColor)
             .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(50.dp))
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 6.dp),
@@ -48,7 +51,7 @@ fun SelectionItem(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
-                    tint = if (isSelected) Color.White else Color(0xFF2A211B),
+                    tint = if (isSelected) Color.White else OnBackgroundText,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
             }
@@ -57,7 +60,7 @@ fun SelectionItem(
                 text = text,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (isSelected) Color.White else Color(0xFF2A211B)
+                color = if (isSelected) Color.White else OnBackgroundText
             )
         }
     }

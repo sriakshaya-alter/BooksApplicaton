@@ -20,4 +20,5 @@ val OnBackgroundText = Color(0xFF2A211B)
 
 val SecondaryText = Color(0xFF8A7A6B)
 
-val Surface = Color(0xFFFFFFFF)
+val IsSelectedColor = Color(0xFFC2542F)
+

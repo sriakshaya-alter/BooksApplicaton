@@ -1,7 +1,8 @@
 package com.example.trail.ui.home
 import com.example.trail.ui.components.BookCard
 import com.example.trail.ui.components.SelectionItem
-
+import com.example.trail.ui.theme.SecondaryText
+import com.example.trail.ui.theme.AppBackground
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,19 +31,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.trail.data.BookFilter
+
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier.Companion,
                navController: NavController,
                bookViewModel: BooksViewModel)  {
 
-    //var BookSearch = remember{mutableStateOf("")}
-//    var selectedFilter = remember { mutableStateOf("All") }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxSize()
-            .background(Color(0xFBF6EF))
+            .background(AppBackground)
             .padding(20.dp)
     ) {
         Text(
@@ -62,7 +63,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
-                    tint = Color(0xFF8A7A6B)
+                    tint = SecondaryText
                 )
             },
             shape = RoundedCornerShape(32.dp),
@@ -83,24 +84,23 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 horizontalArrangement = Arrangement.Center
             )
             {
-                listOf("All", "Hardcover", "Paperback", "eBook").forEach { item ->
+               BookFilter.entries.forEach { item ->
                     val isSelected = item == bookViewModel.selectedFilter.value
                     SelectionItem(
-                        text = item,
+                        text = item.displayName,
                         isSelected = isSelected,
                         modifier = Modifier.weight(2f).padding(3.dp),
                         onClick = { bookViewModel.onFilterChange(item) }
                     )
                 }
 
-
             }
         }
 
 
         val filteredBooks = bookViewModel.bookList.filter { book ->
-            val matchesFormat = bookViewModel.selectedFilter.value == "All" ||
-                    book.format == bookViewModel.selectedFilter.value
+            val matchesFormat = bookViewModel.selectedFilter.value == BookFilter.ALL ||
+                    book.format == bookViewModel.selectedFilter.value.displayName
             val matchesSearch = bookViewModel.bookSearch.value.isEmpty() ||
                     book.bookName.contains(bookViewModel.bookSearch.value, ignoreCase = true) ||
                     book.authorName.contains(bookViewModel.bookSearch.value, ignoreCase = true)

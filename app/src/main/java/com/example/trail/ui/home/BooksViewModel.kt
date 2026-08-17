@@ -7,27 +7,26 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.trail.data.BookFilter
 import com.example.trail.data.BookModel
 
 
 class BooksViewModel : ViewModel() {
 
-    // bookList — private write, public read
     private val _bookList = mutableStateListOf<BookModel>()
     val bookList: List<BookModel> = _bookList
 
 
-    private val _selectedFilter = mutableStateOf("All")
-    val selectedFilter: State<String> = _selectedFilter
+    private val _selectedFilter = mutableStateOf(BookFilter.ALL)
+    val selectedFilter: State<BookFilter> = _selectedFilter
 
-    // bookSearch — private write, public read
     private val _bookSearch = mutableStateOf("")
     val bookSearch: State<String> = _bookSearch
 
     init {
         _bookList.addAll(mockBooks)
     }
-    fun onFilterChange(filter: String) {
+    fun onFilterChange(filter: BookFilter) {
         _selectedFilter.value = filter
     }
 

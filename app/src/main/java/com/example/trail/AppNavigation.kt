@@ -23,6 +23,7 @@ import com.example.trail.ui.myBook.MyBooksScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 
 
 @Composable
@@ -45,8 +46,8 @@ fun AppNavigation() {
                         icon = { Icon(Icons.Default.Search, contentDescription = "Discover") },
                         label = { Text("Discover") },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFFA8452A),
-                            selectedTextColor = Color(0xFFA8452A),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
                             unselectedIconColor = Color.Gray,
                             unselectedTextColor = Color.Gray,
                             indicatorColor = Color(0xFFF4E9DA)
