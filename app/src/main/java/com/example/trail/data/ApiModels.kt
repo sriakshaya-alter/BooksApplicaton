@@ -2,7 +2,7 @@ package com.example.trail.data
 
 
 data class BookSearchResponse(
-    val books: List<BookApiModel>,
+    val books: List<List<BookApiModel>>,
     val available: Int,
     val number: Int,
     val offset: Int

@@ -6,30 +6,79 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.trail.data.BookFilter
 import com.example.trail.data.BookModel
-
+import com.example.trail.data.RetrofitInstance
+import kotlinx.coroutines.launch
 class BooksViewModel : ViewModel() {
 
     private val _bookList = mutableStateListOf<BookModel>()
     val bookList: List<BookModel> = _bookList
 
+    private val coverColors = listOf(
+        0xFFA8452A, 0xFF6B4F3A, 0xFFB5793C, 0xFF7C4A2D
+    )
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> = _isLoading
+
+    private val _error = mutableStateOf<String?>(null)
+    val error: State<String?> = _error
+
+
+    init{
+        searchBooks("fiction")
+    }
+
+    fun searchBooks(query:String){
+        viewModelScope.launch{
+            _isLoading.value = true
+            _error.value = null
+            try{
+                val response = RetrofitInstance.api.searchBooks(query)
+                _bookList.clear()
+                response.books.forEach { items ->
+                    val book = items.firstOrNull() ?: return@forEach
+                    _bookList.add(
+                        BookModel(
+                            id = book.id,
+                            bookName = book.title,
+                            authorName = book.authors?.firstOrNull()?.name ?: "Unknown",
+                            bookPages = 0,
+                            year = "",
+                            coverColor = coverColors.random(),
+                            description = "",
+                            isbn = "",
+                            rating = book.rating?.average ?: 0.0
+                        )
+                    )
+                }
+            }catch(e: Exception){
+                _error.value = "Failed to load books: ${e.message}"
+            }finally {
+                _isLoading.value = false
+            }
+        }
+    }
+    fun onSearchChange(query: String) {
+        _bookSearch.value = query
+        if (query.length > 2) {
+            searchBooks(query)
+        } else if (query.isEmpty()) {
+            searchBooks("fiction")
+        }
+    }
     private val _selectedFilter = mutableStateOf(BookFilter.ALL)
     val selectedFilter: State<BookFilter> = _selectedFilter
 
     private val _bookSearch = mutableStateOf("")
     val bookSearch: State<String> = _bookSearch
 
-    init {
-
-    }
     fun onFilterChange(filter: BookFilter) {
         _selectedFilter.value = filter
     }
 
-    fun onSearchChange(query: String) {
-        _bookSearch.value = query
-    }
 
     private val _userBookStates = mutableStateListOf<UserBookState>()
     val userBookStates: List<UserBookState> = _userBookStates
