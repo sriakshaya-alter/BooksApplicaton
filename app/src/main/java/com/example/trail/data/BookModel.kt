@@ -2,13 +2,14 @@ package com.example.trail.data
 
 
 data class BookModel(
-    var id: Long = 0,               // API book id
+    var id: Long = 0,
     var bookName: String,
     var authorName: String,
     var bookPages: Int,
     var year: String,
-    var coverColor: Long,           // our custom colored box
+    var coverColor: Long,
     var description: String = "",
-    var isbn: String = ""
+    var isbn: String = "",
+    var rating: Double = 0.0    // ← add rating
 )
 

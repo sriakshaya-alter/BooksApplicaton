@@ -1,6 +1,5 @@
 package com.example.trail.ui.home
 
-import com.example.trail.data.mockBooks
 import com.example.trail.data.UserBookState
 
 import androidx.compose.runtime.State
@@ -15,7 +14,6 @@ class BooksViewModel : ViewModel() {
     private val _bookList = mutableStateListOf<BookModel>()
     val bookList: List<BookModel> = _bookList
 
-
     private val _selectedFilter = mutableStateOf(BookFilter.ALL)
     val selectedFilter: State<BookFilter> = _selectedFilter
 
@@ -23,7 +21,7 @@ class BooksViewModel : ViewModel() {
     val bookSearch: State<String> = _bookSearch
 
     init {
-        _bookList.addAll(mockBooks)
+
     }
     fun onFilterChange(filter: BookFilter) {
         _selectedFilter.value = filter

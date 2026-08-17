@@ -80,7 +80,7 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                listOf(book.format,"${book.bookPages} pp",book.year).forEach{item ->
+                listOf(book.rating, "${book.bookPages} pp",book.year).forEach{item ->
                     SelectionItem(backgroundColor = ChipFillColor,
                         text = item)
                     Spacer(modifier = Modifier.width(8.dp))
