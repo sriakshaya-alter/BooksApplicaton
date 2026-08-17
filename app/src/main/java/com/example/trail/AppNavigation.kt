@@ -21,7 +21,6 @@ import com.example.trail.ui.home.BooksViewModel
 import com.example.trail.ui.home.HomeScreen
 import com.example.trail.ui.myBook.MyBooksScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.ui.graphics.Color
 
@@ -38,7 +37,7 @@ fun AppNavigation() {
 
             if (currentRoute != "detail/{bookName}") {
                 NavigationBar(
-                    containerColor = Color.White  // bar background
+                    containerColor = Color.White
                 ) {
                     NavigationBarItem(
                         selected = currentRoute == "discover",

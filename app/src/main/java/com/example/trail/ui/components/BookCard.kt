@@ -1,9 +1,8 @@
 package com.example.trail.ui.components
 
-import com.example.trail.ui.theme.ChipFillColor
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +29,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Icon
-import com.example.trail.data.UserBookState
+
 
 @Composable
 fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
