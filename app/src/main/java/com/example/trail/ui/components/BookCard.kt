@@ -55,10 +55,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
                     fontSize = 12.sp,
                 )
                 Row {
-                    Text(
-                        text = book.format,
-                        fontSize = 8.sp,
-                    )
+
                     Text(".",
                         fontSize = 8.sp,
                         )

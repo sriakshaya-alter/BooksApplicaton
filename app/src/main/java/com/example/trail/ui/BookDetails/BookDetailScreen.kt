@@ -80,9 +80,9 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                listOf(book.rating, "${book.bookPages} pp",book.year).forEach{item ->
+                listOf(book.rating,"${book.bookPages} pp",book.year).forEach{item ->
                     SelectionItem(backgroundColor = ChipFillColor,
-                        text = item)
+                        text = item.toString())
                     Spacer(modifier = Modifier.width(8.dp))
 
                 }
@@ -136,62 +136,64 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     .clip(RoundedCornerShape(12.dp))
                     .background(Color.White)
                     .padding(16.dp)
-            ) {
-                Column{
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(50.dp))
-                                .background(Color(0xFFF4E9DA)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Author",
-                                tint = Color(0xFF8A7A6B)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = book.authorName,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                            Text(
-                                text = "authorid · 14 titles",
-                                fontSize = 12.sp,
-                                color = Color(0xFF8A7A6B)
-                            )
-                        }
-                        Icon(
-                            imageVector = Icons.Default.ArrowForward,
-                            contentDescription = "View Author",
-                            tint = Color(0xFFC2542F)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = "\"${book.authorBio}\"",
-                        fontSize = 12.sp,
-                        color = Color(0xFF2A211B)
-                    )
-                }
+            )
+//            {
+               // Column{
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        Box(
+//                            modifier = Modifier
+//                                .size(40.dp)
+//                                .clip(RoundedCornerShape(50.dp))
+//                                .background(Color(0xFFF4E9DA)),
+//                            contentAlignment = Alignment.Center
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Person,
+//                                contentDescription = "Author",
+//                                tint = Color(0xFF8A7A6B)
+//                            )
+//                        }
+//                        Spacer(modifier = Modifier.width(12.dp))
+//                        Column(modifier = Modifier.weight(1f)) {
+//                            Text(
+//                                text = book.authorName,
+//                                fontWeight = FontWeight.Bold,
+//                                fontSize = 14.sp
+//                            )
+//                            Text(
+//                                text = "authorid · 14 titles",
+//                                fontSize = 12.sp,
+//                                color = Color(0xFF8A7A6B)
+//                            )
+//                        }
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowForward,
+//                            contentDescription = "View Author",
+//                            tint = Color(0xFFC2542F)
+//                        )
+//                    }
+//                    Spacer(modifier = Modifier.height(12.dp))
+//                    Text(
+//                        text = "\"${book.authorBio}\"",
+//                        fontSize = 12.sp,
+//                        color = Color(0xFF2A211B)
+//                    )
+//                }
+//
             }
         }
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Spacer(modifier = Modifier.width(12.dp))
-            SectionLabel("DETAILS")
-            DetailRow("Imprint",book.imprint)
-            DetailRow("Division",book.division)
-            DetailRow("On Sale",book.year)
-            DetailRow("ISBN",book.isbn)
-            DetailRow("Category",book.category)
+            Column(modifier = Modifier.padding(top = 8.dp)) {
+                SectionLabel("DETAILS")
+                DetailRow("Pages", "${book.bookPages} pp")
+                DetailRow("Published", book.year)
+                DetailRow("ISBN", book.isbn)
+                DetailRow("Rating", "${book.rating}")
+            }
+
         }
-    }
 }
 

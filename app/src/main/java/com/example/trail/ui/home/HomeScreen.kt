@@ -102,15 +102,13 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             }
         }
 
-
         val filteredBooks = bookViewModel.bookList.filter { book ->
-            val matchesFormat = bookViewModel.selectedFilter.value == BookFilter.ALL ||
-                    book.format == bookViewModel.selectedFilter.value.displayName
-            val matchesSearch = bookViewModel.bookSearch.value.isEmpty() ||
-                    book.bookName.contains(bookViewModel.bookSearch.value, ignoreCase = true) ||
-                    book.authorName.contains(bookViewModel.bookSearch.value, ignoreCase = true)
-            matchesFormat && matchesSearch
+            bookViewModel.selectedFilter.value.matches(book) &&
+                    (bookViewModel.bookSearch.value.isEmpty() ||
+                            book.bookName.contains(bookViewModel.bookSearch.value, ignoreCase = true) ||
+                            book.authorName.contains(bookViewModel.bookSearch.value, ignoreCase = true))
         }
+
 
         LazyColumn {
             if (filteredBooks.isEmpty()) {
