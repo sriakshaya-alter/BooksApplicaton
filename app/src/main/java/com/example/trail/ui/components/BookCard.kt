@@ -83,7 +83,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
                     tint = if(isBookMarked) Color(0xFFA8452A) else Color(0xFFE8DCCC)
                 )
         }
-        HorizontalDivider(   // ← HR line at bottom of each card
+        HorizontalDivider(
             modifier = Modifier.padding(top = 12.dp),
             color = Color(0xFFE8DCCC),
             thickness = 1.dp

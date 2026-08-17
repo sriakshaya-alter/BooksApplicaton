@@ -1,6 +1,7 @@
 package com.example.trail.ui.myBook
 
-
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,7 +55,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
             fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Row( modifier = Modifier.fillMaxWidth(),
+        Row( modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -70,7 +71,6 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
                 SelectionItem(text =  "$item $count",
                     isSelected = isSelected,
                     modifier = Modifier.padding(2.dp),
-
                     onClick = { bookViewModel.onMyBooksFilterChange(item)})
             }
         }

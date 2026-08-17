@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.trail.data.BookFilter
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+
 
 
 @Composable
@@ -80,7 +83,8 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 6.dp),
+                    .padding(top = 6.dp)
+                .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.Center
             )
             {
@@ -89,7 +93,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                     SelectionItem(
                         text = item.displayName,
                         isSelected = isSelected,
-                        modifier = Modifier.weight(2f).padding(3.dp),
+                        modifier = Modifier.padding(3.dp),
                         onClick = { bookViewModel.onFilterChange(item) }
                     )
                 }
