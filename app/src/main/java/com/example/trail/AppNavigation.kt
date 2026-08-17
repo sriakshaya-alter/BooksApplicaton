@@ -18,6 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.trail.ui.home.HomeScreen
+import com.example.trail.ui.myBook.MyBooksScreen
 
 @Composable
 fun AppNavigation() {

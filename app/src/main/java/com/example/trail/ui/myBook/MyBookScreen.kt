@@ -1,7 +1,5 @@
-package com.example.trail
+package com.example.trail.ui.myBook
 
-
-import androidx.compose.foundation.excludeFromSystemGesture
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,11 +16,13 @@ fun MyBooksScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top=10.dp)
+            .padding(top = 10.dp)
     ) {
-        Text(text = "MyBooks",
+        Text(
+            text = "MyBooks",
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp)
+            fontSize = 20.sp
+        )
         Text(
             text = "Will be Continued",
             fontSize = 20.sp,
