@@ -91,35 +91,6 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
     }
 }
 
-//@Composable
-//fun BookImage(book: BookModel,
-//              width: Dp = 60.dp,    // ← default small size
-//              height: Dp = 80.dp ){
-//    Box(
-//        modifier = Modifier
-//            .width(width)
-//            .height(height)
-//            .shadow(20.dp)
-//            //(                          // ← shadow effect
-////                elevation = 8.dp,
-////                shape = RoundedCornerShape(8.dp),
-////                clip = false
-////            )
-//            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
-//            .background(Color(book.coverColor)),
-//            contentAlignment = Alignment.Center,
-//
-//        ) {
-//        Text(
-//            text = book.bookName,
-//            color = Color.White,
-//            fontSize = 8.sp,
-//            textAlign = TextAlign.Center,
-//            modifier = Modifier.padding(4.dp)
-//        )
-//    }
-//}
-//
 @Composable
 fun BookImage(
     book: BookModel,

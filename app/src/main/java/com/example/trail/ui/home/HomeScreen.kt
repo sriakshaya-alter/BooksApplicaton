@@ -74,49 +74,6 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             ),
             singleLine = true,
         )
-//        Box {
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(top = 12.dp),
-//                horizontalArrangement = Arrangement.spacedBy(1.dp)
-//            ) {
-//
-//                Button(
-//                    onClick = { bookViewModel.selectedFilter.value = "All" },
-//                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color(0xFFC2542F)
-//                    ),
-//                    shape = RoundedCornerShape(20.dp)
-//                ) {
-//                    Text("All", color = Color.White, fontSize = 10.sp)
-//                }
-//
-//                // Unselected buttons — outlined style
-//                OutlinedButton(
-//                    onClick = { bookViewModel.selectedFilter.value = "Hardcover" },
-//                    shape = RoundedCornerShape(20.dp),
-//                    border = BorderStroke(1.dp, Color(0xFFE8DCCC))
-//                ) {
-//                    Text("Hardcover", color = Color(0xFF2A211B), fontSize = 10.sp)
-//                }
-//
-//                OutlinedButton(
-//                    onClick = { bookViewModel.selectedFilter.value = "Paperback" },
-//                    shape = RoundedCornerShape(20.dp),
-//                    border = BorderStroke(1.dp, Color(0xFFE8DCCC))
-//                ) {
-//                    Text("Paperback", color = Color(0xFF2A211B), fontSize = 10.sp)
-//                }
-//                OutlinedButton(
-//                    onClick = { bookViewModel.selectedFilter.value = "eBook" },
-//                    shape = RoundedCornerShape(20.dp),
-//                    border = BorderStroke(1.dp, Color(0xFFE8DCCC))
-//                ) {
-//                    Text(text = "eBook", color = Color(0xFF2A211B), fontSize = 10.sp)
-//                }
-//            }
-//        }
 
         Box {
             Row(
@@ -141,71 +98,6 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
         }
 
 
-//        val filteredBooks = when (bookViewModel.selectedFilter.value) {
-//            "Hardcover" -> {
-//                if(bookViewModel.BookSearch.value.isEmpty()) {
-//                    bookViewModel.bookList.filter { it.format == "Hardcover" }
-//                }else {
-//                    var result = bookViewModel.bookList.filter {
-//                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
-//                                it.format == "Hardcover"
-//                    }
-//                    if(result.isEmpty()){
-//                        emptyList()
-//                    }else{
-//                        result.toList()
-//                    }
-//                }
-//
-//            }
-//            "Paperback" -> {
-//                if(bookViewModel.BookSearch.value.isEmpty()) {
-//                    bookViewModel.bookList.filter { it.format == "Paperback" }
-//                }else {
-//                    var result = bookViewModel.bookList.filter {
-//                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
-//                                it.format == "Paperback"
-//                    }
-//                    if(result.isEmpty()){
-//                        emptyList()
-//                    }else{
-//                        result.toList()
-//                    }
-//                }
-//
-//            }
-//            "eBook" -> {
-//                if(bookViewModel.BookSearch.value.isEmpty()) {
-//                    bookViewModel.bookList.filter { it.format == "eBook" }
-//                }else {
-//                    var result = bookViewModel.bookList.filter {
-//                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true) &&
-//                                it.format == "eBook"
-//                    }
-//                    if(result.isEmpty()){
-//                        emptyList()
-//                    }else{
-//                        result.toList()
-//                    }
-//                }
-//
-//            }
-//            else -> {
-//                if(bookViewModel.BookSearch.value.isEmpty()) {
-//                    bookViewModel.bookList.toList()
-//                }else {
-//                    var result = bookViewModel.bookList.filter {
-//                        it.author_name.contains(bookViewModel.BookSearch.value, ignoreCase = true)
-//                    }
-//                    if(result.isEmpty()){
-//                        emptyList()
-//                    }else{
-//                        result.toList()
-//                    }
-//                }
-//
-//            }
-//        }
         val filteredBooks = bookViewModel.bookList.filter { book ->
             val matchesFormat = bookViewModel.selectedFilter.value == "All" ||
                     book.format == bookViewModel.selectedFilter.value
@@ -244,5 +136,3 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
     }
 }
 
-
-// ← BookCover goes here, below HomeScreen

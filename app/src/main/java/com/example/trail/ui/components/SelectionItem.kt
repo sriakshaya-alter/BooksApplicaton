@@ -30,8 +30,8 @@ fun SelectionItem(
     modifier: Modifier= Modifier,
     backgroundColor: Color = AppBackground,
     text: String,
-    isSelected: Boolean = false,       // default false — no selection
-    onClick: () -> Unit = {} ,// default empty — no click
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {} ,
 ) {
     Box(
         modifier
