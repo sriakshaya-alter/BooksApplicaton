@@ -53,6 +53,7 @@ dependencies {
 // no version — let BOM manage it
     implementation("androidx.navigation:navigation-compose")
     implementation(libs.androidx.ui.graphics)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(libs.litert.metadata)
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

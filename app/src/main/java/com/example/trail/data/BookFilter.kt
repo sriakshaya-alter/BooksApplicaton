@@ -7,8 +7,8 @@ enum class BookFilter(val displayName: String) {
     GOOD("Good");
     fun matches(book: BookModel): Boolean = when (this) {
         ALL          -> true
-        TOP_RATED    -> book.rating > 0.9
-        HIGHLY_RATED -> book.rating in 0.8..0.9
-        GOOD         -> book.rating < 0.8
+        TOP_RATED    -> book.rating > 0.89
+        HIGHLY_RATED -> book.rating in 0.86..0.88
+        GOOD         -> book.rating < 0.86
     }
 }

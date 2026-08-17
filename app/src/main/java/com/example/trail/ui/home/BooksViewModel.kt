@@ -12,10 +12,12 @@ import com.example.trail.data.BookFilter
 import com.example.trail.data.BookModel
 import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
+import android.util.Log
+
 class BooksViewModel : ViewModel() {
 
     private val _bookList = mutableStateListOf<BookModel>()
-    val bookList: List<BookModel> = _bookList
+    val bookList: List<BookModel> get() = _bookList
 
     private val coverColors = listOf(
         0xFFA8452A, 0xFF6B4F3A, 0xFFB5793C, 0xFF7C4A2D
@@ -29,17 +31,21 @@ class BooksViewModel : ViewModel() {
 
     init{
         searchBooks("fiction")
+
     }
 
-    fun searchBooks(query:String){
-        viewModelScope.launch{
+    fun searchBooks(query: String) {
+        viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
-            try{
+            try {
+                Log.d("API", "Searching for: $query")
                 val response = RetrofitInstance.api.searchBooks(query)
+                Log.d("API", "Books received: ${response.books.size}")
                 _bookList.clear()
                 response.books.forEach { items ->
                     val book = items.firstOrNull() ?: return@forEach
+                    Log.d("API", "Adding book: ${book.title}")
                     _bookList.add(
                         BookModel(
                             id = book.id,
@@ -54,13 +60,16 @@ class BooksViewModel : ViewModel() {
                         )
                     )
                 }
-            }catch(e: Exception){
+                Log.d("API", "Total books in list: ${_bookList.size}")
+            } catch (e: Exception) {
+                Log.e("API", "Error: ${e.message}")
                 _error.value = "Failed to load books: ${e.message}"
-            }finally {
+            } finally {
                 _isLoading.value = false
             }
         }
     }
+
     fun onSearchChange(query: String) {
         _bookSearch.value = query
         if (query.length > 2) {

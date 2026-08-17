@@ -49,30 +49,36 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
             .background(MaterialTheme.colorScheme.background)
             .padding(20.dp)
             .verticalScroll(rememberScrollState())
-    ){
-        Row{
+    ) {
+        Row {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back"
                 )
             }
-       }
-        Column(modifier = Modifier.fillMaxWidth(),
+        }
+        Column(
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally){
-            BookImage(book,width = 160.dp, height = 220.dp)
-            Text(text = book.bookName,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            BookImage(book, width = 160.dp, height = 220.dp)
+            Text(
+                text = book.bookName,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 modifier = Modifier
-                    .padding(top=10.dp))
-            Text(book.authorName,
+                    .padding(top = 10.dp)
+            )
+            Text(
+                book.authorName,
                 modifier = Modifier
-                    .padding(top=7.dp),
+                    .padding(top = 7.dp),
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.secondary
-                )
+            )
+
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
@@ -80,9 +86,15 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
-                listOf(book.rating,"${book.bookPages} pp",book.year).forEach{item ->
-                    SelectionItem(backgroundColor = ChipFillColor,
-                        text = item.toString())
+                listOf(
+                    String.format("%.1f ★", book.rating),
+                    "${book.bookPages} pp",
+                    book.year
+                ).forEach { item ->
+                    SelectionItem(
+                        backgroundColor = ChipFillColor,
+                        text = item.toString()
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
 
                 }
@@ -93,13 +105,13 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 listOf("Want to Read", "Read").forEach { item ->
-                SelectionItem(
-                    text = item,
-                    isSelected = item == readStatus,
-                    modifier = Modifier.weight(2f),
-                    onClick = { bookViewModel.setReadStatus(book.isbn, item) }
-                )
-            }
+                    SelectionItem(
+                        text = item,
+                        isSelected = item == readStatus,
+                        modifier = Modifier.weight(2f),
+                        onClick = { bookViewModel.setReadStatus(book.isbn, item) }
+                    )
+                }
                 IconButton(onClick = { bookViewModel.toggleFavourite(book.isbn) }) {
                     Icon(
                         imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
@@ -109,81 +121,34 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                 }
             }
         }
-        Column{
+        Column {
 
             SectionLabel("ABOUT THIS BOOK")
 
             Text(
-                    text = book.description,
-                    fontSize = 12.sp,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
-                )
+                text = book.description,
+                fontSize = 12.sp,
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis
+            )
             Text(
                 text = "More",
                 color = Color(0xFFC2542F),
                 fontWeight = FontWeight.Bold
             )
-        }
 
-        Column(modifier = Modifier.fillMaxWidth()){
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top=16.dp)
-                    .padding(horizontal = 8.dp)
-                    .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(12.dp))
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White)
-                    .padding(16.dp)
-            )
-//            {
-               // Column{
-//                    Row(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        verticalAlignment = Alignment.CenterVertically
-//                    ) {
-//                        Box(
-//                            modifier = Modifier
-//                                .size(40.dp)
-//                                .clip(RoundedCornerShape(50.dp))
-//                                .background(Color(0xFFF4E9DA)),
-//                            contentAlignment = Alignment.Center
-//                        ) {
-//                            Icon(
-//                                imageVector = Icons.Default.Person,
-//                                contentDescription = "Author",
-//                                tint = Color(0xFF8A7A6B)
-//                            )
-//                        }
-//                        Spacer(modifier = Modifier.width(12.dp))
-//                        Column(modifier = Modifier.weight(1f)) {
-//                            Text(
-//                                text = book.authorName,
-//                                fontWeight = FontWeight.Bold,
-//                                fontSize = 14.sp
-//                            )
-//                            Text(
-//                                text = "authorid · 14 titles",
-//                                fontSize = 12.sp,
-//                                color = Color(0xFF8A7A6B)
-//                            )
-//                        }
-//                        Icon(
-//                            imageVector = Icons.Default.ArrowForward,
-//                            contentDescription = "View Author",
-//                            tint = Color(0xFFC2542F)
-//                        )
-//                    }
-//                    Spacer(modifier = Modifier.height(12.dp))
-//                    Text(
-//                        text = "\"${book.authorBio}\"",
-//                        fontSize = 12.sp,
-//                        color = Color(0xFF2A211B)
-//                    )
-//                }
-//
-            }
+//        Column(modifier = Modifier.fillMaxWidth()){
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(top=16.dp)
+//                    .padding(horizontal = 8.dp)
+//                    .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(12.dp))
+//                    .clip(RoundedCornerShape(12.dp))
+//                    .background(Color.White)
+//                    .padding(16.dp)
+//            )
+//           }
         }
         Column(modifier = Modifier.padding(top = 8.dp)) {
             Column(modifier = Modifier.padding(top = 8.dp)) {
@@ -191,9 +156,10 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                 DetailRow("Pages", "${book.bookPages} pp")
                 DetailRow("Published", book.year)
                 DetailRow("ISBN", book.isbn)
-                DetailRow("Rating", "${book.rating}")
+                DetailRow("Rating", String.format("%.1f", book.rating))
             }
 
         }
+    }
 }
 
