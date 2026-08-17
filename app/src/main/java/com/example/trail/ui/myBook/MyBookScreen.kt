@@ -55,7 +55,6 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
-
         Spacer(modifier = Modifier.height(16.dp))
         Row( modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,

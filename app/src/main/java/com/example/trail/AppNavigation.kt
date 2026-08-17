@@ -22,6 +22,9 @@ import com.example.trail.ui.home.HomeScreen
 import com.example.trail.ui.myBook.MyBooksScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.ui.graphics.Color
+
 
 @Composable
 fun AppNavigation() {
@@ -34,20 +37,37 @@ fun AppNavigation() {
         bottomBar = {
 
             if (currentRoute != "detail/{bookName}") {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = Color.White  // bar background
+                ) {
                     NavigationBarItem(
                         selected = currentRoute == "discover",
                         onClick = { navController.navigate("discover") },
                         icon = { Icon(Icons.Default.Search, contentDescription = "Discover") },
-                        label = { Text("Discover") }
+                        label = { Text("Discover") },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFFA8452A),
+                            selectedTextColor = Color(0xFFA8452A),
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color(0xFFF4E9DA)
+                        )
                     )
                     NavigationBarItem(
                         selected = currentRoute == "mybooks",
                         onClick = { navController.navigate("mybooks") },
                         icon = { Icon(Icons.Default.Book, contentDescription = "My Books") },
-                        label = { Text("My Books") }
+                        label = { Text("My Books") },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFFA8452A),
+                            selectedTextColor = Color(0xFFA8452A),
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color(0xFFF4E9DA)
+                        )
                     )
                 }
+
             }
         }
     ) { innerPadding ->

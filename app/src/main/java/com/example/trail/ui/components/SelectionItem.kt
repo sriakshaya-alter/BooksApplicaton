@@ -15,10 +15,17 @@ import androidx.compose.material3.Text
 import com.example.trail.ui.theme.ChipFillColor
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import com.example.trail.data.BookModel
+import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.size
 
 @Composable
 fun SelectionItem(
@@ -35,13 +42,25 @@ fun SelectionItem(
             .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(50.dp))
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 6.dp),
-             contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = text,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (isSelected) Color.White else Color(0xFF2A211B)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (text.startsWith("All")) {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp),
+                    tint = if (isSelected) Color.White else Color(0xFF2A211B),
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+
+            Text(
+                text = text,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (isSelected) Color.White else Color(0xFF2A211B)
+            )
+        }
     }
 }
