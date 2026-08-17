@@ -87,7 +87,7 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                 color = MaterialTheme.colorScheme.secondary
                 )
             Row(
-                horizontalArrangement = Arrangement.Center,        // ← center all chips
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -101,7 +101,7 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                 }
 //                SelectionItem( backgroundColor = ChipFillColor,
 //                    text = book.format)
-//                Spacer(modifier = Modifier.width(8.dp))            // ← space between chips
+//                Spacer(modifier = Modifier.width(8.dp))
 //                SelectionItem( backgroundColor = ChipFillColor,
 //                    text = "${book.bookPages} pp")
 //                Spacer(modifier = Modifier.width(8.dp))

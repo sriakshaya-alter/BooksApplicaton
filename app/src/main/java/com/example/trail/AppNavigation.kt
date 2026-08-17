@@ -59,12 +59,13 @@ fun AppNavigation() {
             composable("discover") {
                 HomeScreen(navController = navController, bookViewModel = bookViewModel)
             }
-            composable("mybooks") { MyBooksScreen( bookViewModel = bookViewModel) }
+            composable("mybooks") { MyBooksScreen( bookViewModel = bookViewModel,navController=navController) }
             composable("detail/{bookName}",) { backStackEntry ->
                 val bookName = backStackEntry.arguments?.getString("bookName") ?: ""
                 val book = bookViewModel.bookList.find { it.bookName == bookName }
                 book?.let { BookDetailScreen(book = it, navController = navController, bookViewModel = bookViewModel ) }
             }
+
         }
     }
 }

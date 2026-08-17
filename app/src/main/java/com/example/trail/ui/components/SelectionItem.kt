@@ -18,6 +18,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
+import com.example.trail.data.BookModel
 
 @Composable
 fun SelectionItem(
@@ -25,7 +26,7 @@ fun SelectionItem(
     backgroundColor: Color = AppBackground,
     text: String,
     isSelected: Boolean = false,       // default false — no selection
-    onClick: () -> Unit = {}           // default empty — no click
+    onClick: () -> Unit = {} ,// default empty — no click
 ) {
     Box(
         modifier

@@ -1,8 +1,9 @@
 package com.example.trail.ui.components
 
-
+import com.example.trail.ui.theme.ChipFillColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,13 @@ import androidx.compose.ui.unit.sp
 import com.example.trail.data.BookModel
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.draw.shadow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material3.Icon
+import com.example.trail.data.UserBookState
 
 @Composable
-fun BookCard(book: BookModel,onClick:() ->Unit) {
+fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +45,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
         Row {
             BookImage(book)
             Spacer(modifier = Modifier.width(12.dp))
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = book.bookName,
                     fontWeight = FontWeight.Bold,
@@ -73,6 +78,11 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
                 }
 
             }
+                Icon(
+                    imageVector =  Icons.Default.Bookmark,
+                    contentDescription = "BookMark",
+                    tint = if(isBookMarked) Color(0xFFA8452A) else Color(0xFFE8DCCC)
+                )
         }
         HorizontalDivider(   // ← HR line at bottom of each card
             modifier = Modifier.padding(top = 12.dp),
@@ -82,31 +92,70 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
     }
 }
 
+//@Composable
+//fun BookImage(book: BookModel,
+//              width: Dp = 60.dp,    // ← default small size
+//              height: Dp = 80.dp ){
+//    Box(
+//        modifier = Modifier
+//            .width(width)
+//            .height(height)
+//            .shadow(20.dp)
+//            //(                          // ← shadow effect
+////                elevation = 8.dp,
+////                shape = RoundedCornerShape(8.dp),
+////                clip = false
+////            )
+//            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+//            .background(Color(book.coverColor)),
+//            contentAlignment = Alignment.Center,
+//
+//        ) {
+//        Text(
+//            text = book.bookName,
+//            color = Color.White,
+//            fontSize = 8.sp,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier.padding(4.dp)
+//        )
+//    }
+//}
+//
 @Composable
-fun BookImage(book: BookModel,
-              width: Dp = 60.dp,    // ← default small size
-              height: Dp = 80.dp ){
+fun BookImage(
+    book: BookModel,
+    width: Dp = 60.dp,
+    height: Dp = 80.dp
+) {
     Box(
         modifier = Modifier
             .width(width)
             .height(height)
-            .shadow(                          // ← shadow effect
+            .shadow(
                 elevation = 8.dp,
-                shape = RoundedCornerShape(8.dp),
-                clip = false
+                shape = RoundedCornerShape(8.dp)
             )
-            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
-            .background(Color(book.coverColor)),
-            contentAlignment = Alignment.Center,
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(book.coverColor))
+    ) {
 
-        ) {
+        // Book spine
+        Box(
+            modifier = Modifier
+                .width(6.dp)
+                .height(height)
+                .align(Alignment.CenterStart)
+                .background(Color(0x33300000))
+        )
+
         Text(
             text = book.bookName,
             color = Color.White,
             fontSize = 8.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(6.dp)
         )
     }
 }
-

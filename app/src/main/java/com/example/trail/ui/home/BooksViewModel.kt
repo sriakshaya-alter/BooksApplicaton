@@ -52,7 +52,9 @@ class BooksViewModel : ViewModel() {
     fun setReadStatus(isbn: String, status: String) {
         val index = _userBookStates.indexOfFirst { it.isbn == isbn }
         if (index != -1) {
-            _userBookStates[index] = _userBookStates[index].copy(readStatus = status)
+            val currentStatus = _userBookStates[index].readStatus
+            val newStatus = if (currentStatus == status) "none" else status
+            _userBookStates[index] = _userBookStates[index].copy(readStatus = newStatus)
         } else {
             _userBookStates.add(UserBookState(isbn, readStatus = status))
         }

@@ -141,8 +141,8 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                         modifier = Modifier.weight(2f).padding(3.dp),
                         onClick = { bookViewModel.onFilterChange(item) }
                     )
-
                 }
+
 
             }
         }
@@ -235,15 +235,16 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 }
             } else {
                 items(filteredBooks) { book ->
+                    val isBookmarked = bookViewModel.userBookStates.any { it.isbn == book.isbn }
                     BookCard(
                         book = book,
-                        onClick = { navController.navigate("detail/${book.bookName}") }
+                        onClick = { navController.navigate("detail/${book.bookName}") },
+                        isBookMarked = isBookmarked
                     )
                 }
 
             }
         }
-
 
     }
 }

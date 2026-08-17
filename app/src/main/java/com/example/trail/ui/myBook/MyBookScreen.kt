@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -33,11 +34,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Arrangement
-
+import androidx.navigation.NavController
 
 
 @Composable
-fun MyBooksScreen(bookViewModel: BooksViewModel) {
+fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
     val totalCount = bookViewModel.userBookStates.size
     val readCount = bookViewModel.userBookStates.count { it.readStatus == "Read" }
     val wantToReadCount = bookViewModel.userBookStates.count { it.readStatus == "Want to Read" }
@@ -77,10 +78,13 @@ fun MyBooksScreen(bookViewModel: BooksViewModel) {
 
         val myBooks = bookViewModel.userBookStates
             .filter { state ->
+                val hasAction = state.readStatus != "none" || state.isFavourite
+
                 val matchesFilter = bookViewModel.myBooksFilter.value == "All" ||
                         state.readStatus == bookViewModel.myBooksFilter.value ||
                         (bookViewModel.myBooksFilter.value == "Favourites" && state.isFavourite)
-                matchesFilter
+                matchesFilter && hasAction
+
             }
             .mapNotNull { state ->
                 bookViewModel.bookList.find { it.isbn == state.isbn }
@@ -97,7 +101,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(myBooks) { book ->
-                    MyBookCard(book = book,bookViewModel= bookViewModel)
+                    MyBookCard(book = book,bookViewModel= bookViewModel,onClick = { navController.navigate("detail/${book.bookName}") })
                 }
             }
         }
@@ -105,12 +109,12 @@ fun MyBooksScreen(bookViewModel: BooksViewModel) {
 }
 
 @Composable
-fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel) {
+fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Unit) {
     val userState = bookViewModel.userBookStates.find { it.isbn == book.isbn }
     val isFavourite = userState?.isFavourite ?: false
     val readStatus = userState?.readStatus ?: "none"
 
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(8.dp).clickable { onClick() }) {
         Box {
             // book cover
             Box(
@@ -135,7 +139,7 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel) {
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = if (readStatus == "read") "READ" else "WANT TO READ",
+                            text = if (readStatus == "Read") "READ" else "WANT TO READ",
                             color = Color.White,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
