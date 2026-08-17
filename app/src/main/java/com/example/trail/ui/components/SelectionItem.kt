@@ -16,6 +16,9 @@ import com.example.trail.ui.theme.ChipFillColor
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+
 @Composable
 fun SelectionItem(
     modifier: Modifier= Modifier,
@@ -30,11 +33,13 @@ fun SelectionItem(
             .background(if (isSelected) Color(0xFFC2542F) else backgroundColor)
             .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(50.dp))
             .clickable { onClick() }
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+             contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
             fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
             color = if (isSelected) Color.White else Color(0xFF2A211B)
         )
     }

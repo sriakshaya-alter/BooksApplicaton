@@ -48,7 +48,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit) {
                 )
                 Text(
                     text = book.authorName,
-                    fontSize = 8.sp,
+                    fontSize = 12.sp,
                 )
                 Row {
                     Text(

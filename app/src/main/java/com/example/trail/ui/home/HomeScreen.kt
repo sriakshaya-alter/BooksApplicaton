@@ -51,7 +51,6 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             .fillMaxSize()
             .background(Color(0xFBF6EF))
             .padding(20.dp)
-
     ) {
         Text(
             text = "Discover",
@@ -139,8 +138,10 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                     SelectionItem(
                         text = item,
                         isSelected = isSelected,
+                        modifier = Modifier.weight(2f).padding(3.dp),
                         onClick = { bookViewModel.onFilterChange(item) }
                     )
+
                 }
 
             }

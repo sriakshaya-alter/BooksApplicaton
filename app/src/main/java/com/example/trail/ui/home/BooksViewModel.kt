@@ -57,6 +57,13 @@ class BooksViewModel : ViewModel() {
             _userBookStates.add(UserBookState(isbn, readStatus = status))
         }
     }
+    private val _myBooksFilter = mutableStateOf("All")
+    val myBooksFilter: State<String> = _myBooksFilter
+
+    fun onMyBooksFilterChange(filter: String) {
+        _myBooksFilter.value = filter
+    }
+
 
 
 

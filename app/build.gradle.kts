@@ -53,6 +53,7 @@ dependencies {
 // no version — let BOM manage it
     implementation("androidx.navigation:navigation-compose")
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.litert.metadata)
 
 
     testImplementation(libs.junit)

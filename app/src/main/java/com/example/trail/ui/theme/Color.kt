@@ -17,3 +17,7 @@ val AuthorNameStyling = Color(0xFF8A7A6B)
 val ChipFillColor = Color(0xFFF4E9DA)
 
 val OnBackgroundText = Color(0xFF2A211B)
+
+val SecondaryText = Color(0xFF8A7A6B)
+
+val Surface = Color(0xFFFFFFFF)
