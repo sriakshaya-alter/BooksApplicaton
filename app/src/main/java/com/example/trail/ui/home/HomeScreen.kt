@@ -1,4 +1,5 @@
 package com.example.trail.ui.home
+
 import com.example.trail.ui.components.BookCard
 import com.example.trail.ui.components.SelectionItem
 import com.example.trail.ui.theme.SecondaryText

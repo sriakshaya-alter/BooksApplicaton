@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import com.example.trail.data.BookFilter
 import com.example.trail.data.BookModel
 
-
 class BooksViewModel : ViewModel() {
 
     private val _bookList = mutableStateListOf<BookModel>()
