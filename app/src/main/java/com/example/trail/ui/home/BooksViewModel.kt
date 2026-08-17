@@ -64,8 +64,5 @@ class BooksViewModel : ViewModel() {
         _myBooksFilter.value = filter
     }
 
-
-
-
 }
 

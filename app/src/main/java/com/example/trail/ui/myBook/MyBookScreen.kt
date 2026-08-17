@@ -35,8 +35,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Arrangement
 
 
+
 @Composable
 fun MyBooksScreen(bookViewModel: BooksViewModel) {
+    val totalCount = bookViewModel.userBookStates.size
+    val readCount = bookViewModel.userBookStates.count { it.readStatus == "Read" }
+    val wantToReadCount = bookViewModel.userBookStates.count { it.readStatus == "Want to Read" }
+    val favouriteCount = bookViewModel.userBookStates.count { it.isFavourite }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,10 +60,17 @@ fun MyBooksScreen(bookViewModel: BooksViewModel) {
             verticalAlignment = Alignment.CenterVertically,
             ) {
             listOf("All","Want to Read","Read","Favourites").forEach{item ->
+                val count = when (item) {
+                    "All"          -> totalCount
+                    "Read"         -> readCount
+                    "Want to Read" -> wantToReadCount
+                    "Favourites"   -> favouriteCount
+                    else -> 0
+                }
                 val isSelected = item == bookViewModel.myBooksFilter.value
-                SelectionItem(text = item,
+                SelectionItem(text =  "$item $count",
                     isSelected = isSelected,
-                    modifier = Modifier.weight(0.2f).padding(2.dp),
+                    modifier = Modifier.padding(2.dp),
                     onClick = { bookViewModel.onMyBooksFilterChange(item)})
             }
         }

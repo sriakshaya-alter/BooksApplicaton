@@ -5,7 +5,6 @@ import com.example.trail.ui.components.SectionLabel
 import com.example.trail.ui.theme.Surface
 import com.example.trail.ui.home.BooksViewModel
 import com.example.trail.ui.theme.SecondaryText
-import com.example.trail.ui.components.ChipItem
 import com.example.trail.ui.components.SelectionItem
 import com.example.trail.ui.theme.ChipFillColor
 import com.example.trail.ui.theme.OnBackgroundText
