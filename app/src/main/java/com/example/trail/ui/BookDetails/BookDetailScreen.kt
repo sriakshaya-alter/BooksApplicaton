@@ -86,14 +86,6 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     Spacer(modifier = Modifier.width(8.dp))
 
                 }
-//                SelectionItem( backgroundColor = ChipFillColor,
-//                    text = book.format)
-//                Spacer(modifier = Modifier.width(8.dp))
-//                SelectionItem( backgroundColor = ChipFillColor,
-//                    text = "${book.bookPages} pp")
-//                Spacer(modifier = Modifier.width(8.dp))
-//                SelectionItem( backgroundColor = ChipFillColor,
-//                    text = book.year)
             }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
