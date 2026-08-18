@@ -35,7 +35,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.foundation.layout.Arrangement
 import androidx.navigation.NavController
 import com.example.trail.data.ReadStatus
-
+import com.example.trail.data.MyBooksFilter
 
 @Composable
 fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
@@ -59,29 +59,33 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
         Row( modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            ) {
-            listOf("All","Want to Read","Read","Favourites").forEach{item ->
-                val count = when (item) {
-                    "All"          -> totalCount
-                    "Read"         -> readCount
-                    "Want to Read" -> wantToReadCount
-                    "Favourites"   -> favouriteCount
-                    else -> 0
-                }
-                val isSelected = item == bookViewModel.myBooksFilter.value
-                SelectionItem(text =  "$item $count",
-                    isSelected = isSelected,
-                    modifier = Modifier.padding(2.dp),
-                    onClick = { bookViewModel.onMyBooksFilterChange(item)})
+            ) {MyBooksFilter.entries.forEach { filter ->
+            val count = when (filter) {
+                MyBooksFilter.ALL          -> totalCount
+                MyBooksFilter.READ         -> readCount
+                MyBooksFilter.WANT_TO_READ -> wantToReadCount
+                MyBooksFilter.FAVOURITES   -> favouriteCount
             }
+            val isSelected = filter == bookViewModel.myBooksFilter.value
+            SelectionItem(
+                text = "${filter.displayName} $count",
+                isSelected = isSelected,
+                modifier = Modifier.padding(2.dp),
+                onClick = { bookViewModel.onMyBooksFilterChange(filter) }
+            )
+        }
+
         }
 
         val myBooks = bookViewModel.userBookStates
             .filter { state ->
                 val hasAction = state.readStatus != ReadStatus.NONE || state.isFavourite
-                val matchesFilter = bookViewModel.myBooksFilter.value == "All" ||
-                        state.readStatus.displayName == bookViewModel.myBooksFilter.value ||
-                        (bookViewModel.myBooksFilter.value == "Favourites" && state.isFavourite)
+
+                val matchesFilter = bookViewModel.myBooksFilter.value == MyBooksFilter.ALL ||
+                        (bookViewModel.myBooksFilter.value == MyBooksFilter.READ && state.readStatus == ReadStatus.READ) ||
+                        (bookViewModel.myBooksFilter.value == MyBooksFilter.WANT_TO_READ && state.readStatus == ReadStatus.WANT_TO_READ) ||
+                        (bookViewModel.myBooksFilter.value == MyBooksFilter.FAVOURITES && state.isFavourite)
+
                 matchesFilter && hasAction
 
             }
@@ -147,7 +151,7 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Uni
                 }
             }
 
-            // heart icon — top right
+
             if (isFavourite) {
 
                 Icon(

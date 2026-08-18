@@ -15,6 +15,7 @@ import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
 import android.util.Log
 import com.example.trail.BuildConfig
+import com.example.trail.data.MyBooksFilter
 
 class BooksViewModel : ViewModel() {
 
@@ -153,10 +154,10 @@ class BooksViewModel : ViewModel() {
         }
     }
 
-    private val _myBooksFilter = mutableStateOf("All")
-    val myBooksFilter: State<String> = _myBooksFilter
+    private val _myBooksFilter = mutableStateOf(MyBooksFilter.ALL)
+    val myBooksFilter: State<MyBooksFilter> = _myBooksFilter
 
-    fun onMyBooksFilterChange(filter: String) {
+    fun onMyBooksFilterChange(filter: MyBooksFilter) {
         _myBooksFilter.value = filter
     }
 
