@@ -7,19 +7,19 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
-
+import com.example.trail.BuildConfig
 interface BigBookApiService{
     @GET("search-books")
     suspend fun searchBooks(
         @Query("query") query:String,
-        @Query("api-key") apikey: String = "6ba06e89965e4ac89b3224a4e68dbcb7",
+        @Query("api-key") apikey: String = BuildConfig.API_KEY,
        @Query("number") number : Int = 10
     ):BookSearchResponse
 
     @GET("{bookId}")
     suspend fun getBookDetails(
         @Path("bookId") bookId : Long,
-        @Query("api-key") apiKey: String = "6ba06e89965e4ac89b3224a4e68dbcb7"
+        @Query("api-key") apiKey: String = BuildConfig.API_KEY,
     ): BookDetailApiModel
 }
 

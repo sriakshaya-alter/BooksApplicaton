@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.unit.sp
+import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
 fun DetailRow(label: String, value: String) {
@@ -25,7 +26,7 @@ fun DetailRow(label: String, value: String) {
         ) {
             Text(text = label, fontSize = 14.sp, color = SecondaryText)
             Text(text = value, fontSize = 14.sp,
-                color = Color(0xFF2A211B),
+                color = OnBackgroundText,
                 modifier = Modifier.padding(bottom = 8.dp))
         }
         HorizontalDivider(color = Color(0xFFE8DCCC), thickness = 1.dp)

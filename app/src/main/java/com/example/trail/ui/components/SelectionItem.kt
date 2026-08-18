@@ -1,7 +1,9 @@
 package com.example.trail.ui.components
 
-import com.example.trail.ui.theme.AppBackground
+import com.example.trail.ui.theme.Background
 import com.example.trail.ui.theme.OnBackgroundText
+import com.example.trail.ui.theme.OutLine
+import com.example.trail.ui.theme.Surface
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,11 +29,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import com.example.trail.ui.theme.OnBackgroundText
+import com.example.trail.ui.theme.Chipfill
 
 @Composable
 fun SelectionItem(
     modifier: Modifier= Modifier,
-    backgroundColor: Color = AppBackground,
+    backgroundColor: Color = Chipfill,
     text: String,
     isSelected: Boolean = false,
     onClick: () -> Unit = {} ,
@@ -40,7 +43,7 @@ fun SelectionItem(
         modifier
             .clip(RoundedCornerShape(50.dp))
             .background(if (isSelected) MaterialTheme.colorScheme.primary else backgroundColor)
-            .border(1.dp, Color(0xFFE8DCCC), RoundedCornerShape(50.dp))
+            .border(1.dp, OutLine, RoundedCornerShape(50.dp))
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center
@@ -51,7 +54,7 @@ fun SelectionItem(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
-                    tint = if (isSelected) Color.White else OnBackgroundText,
+                    tint = if (isSelected) Surface else OnBackgroundText,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
             }

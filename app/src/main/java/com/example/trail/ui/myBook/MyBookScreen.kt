@@ -34,13 +34,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.foundation.layout.Arrangement
 import androidx.navigation.NavController
+import com.example.trail.data.ReadStatus
 
 
 @Composable
 fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
     val totalCount = bookViewModel.userBookStates.size
-    val readCount = bookViewModel.userBookStates.count { it.readStatus == "Read" }
-    val wantToReadCount = bookViewModel.userBookStates.count { it.readStatus == "Want to Read" }
+    val readCount = bookViewModel.userBookStates.count { it.readStatus == ReadStatus.READ }
+    val wantToReadCount = bookViewModel.userBookStates.count { it.readStatus == ReadStatus.WANT_TO_READ }
     val favouriteCount = bookViewModel.userBookStates.count { it.isFavourite }
     Column(
         modifier = Modifier
@@ -77,10 +78,9 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
 
         val myBooks = bookViewModel.userBookStates
             .filter { state ->
-                val hasAction = state.readStatus != "none" || state.isFavourite
-
+                val hasAction = state.readStatus != ReadStatus.NONE || state.isFavourite
                 val matchesFilter = bookViewModel.myBooksFilter.value == "All" ||
-                        state.readStatus == bookViewModel.myBooksFilter.value ||
+                        state.readStatus.displayName == bookViewModel.myBooksFilter.value ||
                         (bookViewModel.myBooksFilter.value == "Favourites" && state.isFavourite)
                 matchesFilter && hasAction
 
@@ -100,7 +100,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(myBooks) { book ->
-                    MyBookCard(book = book,bookViewModel= bookViewModel,onClick = { navController.navigate("detail/${book.bookName}") })
+                    MyBookCard(book = book,bookViewModel= bookViewModel,onClick = { navController.navigate("detail/${book.id}") })
                 }
             }
         }
@@ -127,7 +127,7 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Uni
                     .align(Alignment.TopStart)
                     .padding(5.dp)
                 )
-                if (readStatus != "none") {
+                if (readStatus != ReadStatus.NONE) {
 
                     Box(
                         modifier = Modifier
@@ -138,7 +138,7 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Uni
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = if (readStatus == "Read") "READ" else "WANT TO READ",
+                            text = if (readStatus == ReadStatus.WANT_TO_READ) "WANT TO READ" else "READ",
                             color = Color.White,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold

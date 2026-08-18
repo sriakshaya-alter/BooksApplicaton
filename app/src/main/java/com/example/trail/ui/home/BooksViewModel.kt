@@ -1,6 +1,7 @@
 package com.example.trail.ui.home
 
 import com.example.trail.data.UserBookState
+import com.example.trail.data.ReadStatus
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -13,6 +14,7 @@ import com.example.trail.data.BookModel
 import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
 import android.util.Log
+import com.example.trail.BuildConfig
 
 class BooksViewModel : ViewModel() {
 
@@ -31,6 +33,8 @@ class BooksViewModel : ViewModel() {
 
     init{
         searchBooks("fiction")
+        Log.d("API_KEY_CHECK", "Key: ${BuildConfig.API_KEY}")
+
     }
 
     fun searchBooks(query: String) {
@@ -121,7 +125,7 @@ class BooksViewModel : ViewModel() {
     val userBookStates: List<UserBookState> get()= _userBookStates
     private fun removeIfNoAction(index: Int) {
         val state = _userBookStates[index]
-        if (state.readStatus == "none" && !state.isFavourite) {
+        if (state.readStatus == ReadStatus.NONE && !state.isFavourite) {
             _userBookStates.removeAt(index)
         }
     }
@@ -138,12 +142,12 @@ class BooksViewModel : ViewModel() {
         }
     }
 
-    fun setReadStatus(isbn: String, status: String) {
+    fun setReadStatus(isbn: String, status: ReadStatus) {
         val index = _userBookStates.indexOfFirst { it.isbn == isbn }
         if (index != -1) {
-            val newStatus = if (_userBookStates[index].readStatus == status) "none" else status
+            val newStatus = if (_userBookStates[index].readStatus == status) ReadStatus.NONE else status
             _userBookStates[index] = _userBookStates[index].copy(readStatus = newStatus)
-            removeIfNoAction(index)   // ← reuse
+            removeIfNoAction(index)
         } else {
             _userBookStates.add(UserBookState(isbn, readStatus = status))
         }

@@ -39,13 +39,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.foundation.layout.Box
+import com.example.trail.data.ReadStatus
 
 
 
 @Composable
 fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel: BooksViewModel ) {
     val userState = bookViewModel.userBookStates.find { it.isbn == book.isbn }
-    val readStatus = userState?.readStatus ?: "none"
+    val readStatus = userState?.readStatus ?: ReadStatus.NONE
     val isFavourite = userState?.isFavourite ?: false
     LaunchedEffect(book.id) {
         bookViewModel.fetchBookDetails(book.id)
@@ -119,12 +120,12 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                 ) {
-                    listOf("Want to Read", "Read").forEach { item ->
+                    listOf(ReadStatus.WANT_TO_READ, ReadStatus.READ).forEach { status ->
                         SelectionItem(
-                            text = item,
-                            isSelected = item == readStatus,
+                            text = status.displayName,
+                            isSelected = readStatus == status,
                             modifier = Modifier.weight(2f),
-                            onClick = { bookViewModel.setReadStatus(book.isbn, item) }
+                            onClick = { bookViewModel.setReadStatus(book.isbn, status) }
                         )
                     }
                     IconButton(onClick = { bookViewModel.toggleFavourite(book.isbn) }) {

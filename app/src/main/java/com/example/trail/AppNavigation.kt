@@ -1,5 +1,7 @@
 package com.example.trail
 
+
+import com.example.trail.ui.theme.Surface
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
@@ -38,7 +40,7 @@ fun AppNavigation() {
 
             if (currentRoute != "detail/{bookName}") {
                 NavigationBar(
-                    containerColor = Color.White
+                    containerColor = Surface
                 ) {
                     NavigationBarItem(
                         selected = currentRoute == "discover",

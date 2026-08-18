@@ -18,9 +18,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = IsSelectedColor,
+    primary = Primary,
     tertiary = Pink40,
-    background = AppBackground,
+    background = Background,
     secondary  = AuthorNameStyling
 )
 

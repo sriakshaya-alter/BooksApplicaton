@@ -1,6 +1,7 @@
 package com.example.trail.ui.components
 
-
+import com.example.trail.ui.theme.OutLine
+import com.example.trail.ui.theme.SecondaryText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Icon
+import com.example.trail.ui.theme.Background
+import com.example.trail.ui.theme.Chipfill
 
 
 @Composable
@@ -36,7 +39,7 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xF4E9DA))
+            .background(Background)
             .clickable { onClick() }
             .padding(12.dp),
 
@@ -48,11 +51,13 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
                 Text(
                     text = book.bookName,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = Color.Black
                 )
                 Text(
                     text = book.authorName,
                     fontSize = 12.sp,
+                    color = SecondaryText
                 )
 //                Row {
 //                    Text(".",
@@ -76,12 +81,12 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
                 Icon(
                     imageVector =  Icons.Default.Bookmark,
                     contentDescription = "BookMark",
-                    tint = if(isBookMarked) Color(0xFFA8452A) else Color(0xFFE8DCCC)
+                    tint = if(isBookMarked) Color(0xFFA8452A) else OutLine
                 )
         }
         HorizontalDivider(
             modifier = Modifier.padding(top = 12.dp),
-            color = Color(0xFFE8DCCC),
+            color = OutLine,
             thickness = 1.dp
         )
     }
@@ -104,8 +109,6 @@ fun BookImage(
             .clip(RoundedCornerShape(8.dp))
             .background(Color(book.coverColor))
     ) {
-
-        // Book spine
         Box(
             modifier = Modifier
                 .width(6.dp)

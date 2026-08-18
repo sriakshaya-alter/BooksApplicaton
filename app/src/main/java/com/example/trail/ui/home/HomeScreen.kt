@@ -3,7 +3,8 @@ package com.example.trail.ui.home
 import com.example.trail.ui.components.BookCard
 import com.example.trail.ui.components.SelectionItem
 import com.example.trail.ui.theme.SecondaryText
-import com.example.trail.ui.theme.AppBackground
+import com.example.trail.ui.theme.Background
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +38,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
-
-
+import com.example.trail.data.ReadStatus
 
 
 @Composable
@@ -56,7 +56,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxSize()
-                .background(AppBackground)
+                .background(Background)
                 .padding(20.dp)
         ) {
             Text(
@@ -93,9 +93,9 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 6.dp)
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.Center
+                        .horizontalScroll(rememberScrollState())
+                        .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                 )
                 {
                     BookFilter.entries.forEach { item ->
@@ -103,7 +103,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                         SelectionItem(
                             text = item.displayName,
                             isSelected = isSelected,
-                            modifier = Modifier.padding(3.dp),
+                            modifier = Modifier.padding(0.dp),
                             onClick = { bookViewModel.onFilterChange(item) }
                         )
                     }
@@ -139,7 +139,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 } else {
                     items(filteredBooks) { book ->
                         val isBookmarked = bookViewModel.userBookStates.any {
-                            it.isbn == book.isbn && (it.isFavourite || it.readStatus != "none")
+                            it.isbn == book.isbn && (it.isFavourite || it.readStatus != ReadStatus.NONE)
                         }
                         BookCard(
                             book = book,
