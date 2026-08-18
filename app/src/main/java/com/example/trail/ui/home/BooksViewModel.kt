@@ -31,7 +31,6 @@ class BooksViewModel : ViewModel() {
 
     init{
         searchBooks("fiction")
-
     }
 
     fun searchBooks(query: String) {
@@ -70,6 +69,35 @@ class BooksViewModel : ViewModel() {
         }
     }
 
+    private val _selectedBook = mutableStateOf<BookModel?>(null)
+    val selectedBook : State<BookModel?> = _selectedBook
+
+    private val _isDetailLoading = mutableStateOf(false)
+    val isDetailLoading: State<Boolean> = _isDetailLoading
+    fun fetchBookDetails(bookId:Long){
+        viewModelScope.launch {
+            _isDetailLoading.value = true
+            try{
+                val detail = RetrofitInstance.api.getBookDetails(bookId)
+                val index = _bookList.indexOfFirst { it.id == bookId }
+                if(index != -1){
+                    _bookList[index] = _bookList[index].copy(
+                        bookPages = detail.number_of_pages?.toInt() ?: 0,
+                        year = detail.publish_date?.toInt()?.toString() ?: "",
+                        description = detail.description ?: "",
+                        isbn = detail.identifiers?.isbn_13 ?: ""
+                    )
+                    _selectedBook.value = _bookList[index]
+                }
+            }catch(e: Exception){
+                Log.e("API", "Detail error: ${e.message}")
+            }finally {
+                _isDetailLoading.value = false
+            }
+        }
+    }
+
+
     fun onSearchChange(query: String) {
         _bookSearch.value = query
         if (query.length > 2) {
@@ -90,7 +118,7 @@ class BooksViewModel : ViewModel() {
 
 
     private val _userBookStates = mutableStateListOf<UserBookState>()
-    val userBookStates: List<UserBookState> = _userBookStates
+    val userBookStates: List<UserBookState> get()= _userBookStates
     private fun removeIfNoAction(index: Int) {
         val state = _userBookStates[index]
         if (state.readStatus == "none" && !state.isFavourite) {

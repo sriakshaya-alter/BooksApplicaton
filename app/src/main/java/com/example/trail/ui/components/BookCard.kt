@@ -54,24 +54,23 @@ fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
                     text = book.authorName,
                     fontSize = 12.sp,
                 )
-                Row {
-
-                    Text(".",
-                        fontSize = 8.sp,
-                        )
-                    Text(
-                        book.bookPages.toString(),
-                        fontSize = 8.sp,
-                    )
-                    Text(
-                        ".",
-                        fontSize = 8.sp,
-                    )
-                    Text(
-                        text = book.year,
-                        fontSize = 8.sp,
-                    )
-                }
+//                Row {
+//                    Text(".",
+//                        fontSize = 8.sp,
+//                        )
+//                    Text(
+//                        book.bookPages.toString(),
+//                        fontSize = 8.sp,
+//                    )
+//                    Text(
+//                        ".",
+//                        fontSize = 8.sp,
+//                    )
+//                    Text(
+//                        text = book.year,
+//                        fontSize = 8.sp,
+//                    )
+//                }
 
             }
                 Icon(

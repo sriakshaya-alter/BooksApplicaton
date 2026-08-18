@@ -143,7 +143,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                         }
                         BookCard(
                             book = book,
-                            onClick = { navController.navigate("detail/${book.bookName}") },
+                            onClick = { navController.navigate("detail/${book.id}") },
                             isBookMarked = isBookmarked
                         )
                     }

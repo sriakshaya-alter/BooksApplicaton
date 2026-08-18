@@ -16,9 +16,9 @@ interface BigBookApiService{
        @Query("number") number : Int = 10
     ):BookSearchResponse
 
-    @GET("{book-id}")
+    @GET("{bookId}")
     suspend fun getBookDetails(
-        @Query("query") bookId : Long,
+        @Path("bookId") bookId : Long,
         @Query("api-key") apiKey: String = "6ba06e89965e4ac89b3224a4e68dbcb7"
     ): BookDetailApiModel
 }
@@ -27,7 +27,7 @@ object RetrofitInstance {
     private const val BASE_URL = "https://api.bigbookapi.com/"
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)   // ← increase timeout
+        .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
@@ -35,7 +35,7 @@ object RetrofitInstance {
     val api: BigBookApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)              // ← add client
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BigBookApiService::class.java)
