@@ -92,9 +92,8 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             Box {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .horizontalScroll(rememberScrollState())
-                        .padding(vertical = 8.dp),
+                        .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                 )
                 {
