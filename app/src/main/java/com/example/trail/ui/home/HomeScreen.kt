@@ -46,8 +46,12 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                navController: NavController,
                bookViewModel: BooksViewModel) {
     if (bookViewModel.isLoading.value) {
-        Column(){
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))}
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = Color(0xFFA8452A))
+        }
     } else if (bookViewModel.error.value != null) {
         Text(text = bookViewModel.error.value ?: "Error")
     } else {
@@ -90,24 +94,26 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             )
 
             Box {
-                Row(
-                    modifier = Modifier
-                        .horizontalScroll(rememberScrollState())
-                        .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                )
-                {
-                    BookFilter.entries.forEach { item ->
-                        val isSelected = item == bookViewModel.selectedFilter.value
-                        SelectionItem(
-                            text = item.displayName,
-                            isSelected = isSelected,
-                            modifier = Modifier.padding(0.dp),
-                            onClick = { bookViewModel.onFilterChange(item) }
-                        )
-                    }
+              if (bookViewModel.bookSearch.value.isNotEmpty()) {
+                  Row(
+                      modifier = Modifier
+                          .horizontalScroll(rememberScrollState())
+                          .padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
+                      horizontalArrangement = Arrangement.spacedBy(8.dp)
+                  )
+                  {
+                      BookFilter.entries.forEach { item ->
+                          val isSelected = item == bookViewModel.selectedFilter.value
+                          SelectionItem(
+                              text = item.displayName,
+                              isSelected = isSelected,
+                              modifier = Modifier.padding(0.dp),
+                              onClick = { bookViewModel.onFilterChange(item) }
+                          )
+                      }
 
-                }
+                  }
+              }
             }
 
             val filteredBooks = bookViewModel.bookList.filter { book ->
