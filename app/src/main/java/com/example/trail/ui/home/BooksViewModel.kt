@@ -116,9 +116,9 @@ class BooksViewModel : ViewModel() {
 
     fun onSearchChange(query: String) {
         _bookSearch.value = query
-        searchJob?.cancel()   // cancel previous search
+        searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(500)   // wait 500ms befor
+            delay(500)
             if (query.length > 2) {
                 searchBooks(query)
             } else if (query.isEmpty()) {
