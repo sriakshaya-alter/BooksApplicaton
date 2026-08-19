@@ -86,7 +86,12 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                 CircularProgressIndicator(color = Color(0xFFA8452A))
             }
         } else if (bookViewModel.error.value != null) {
-            Text(text = bookViewModel.error.value ?: "Error")
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = bookViewModel.error.value ?: "Error")
+            }
         } else {
             Box {
                 if (bookViewModel.bookSearch.value.isNotEmpty()) {

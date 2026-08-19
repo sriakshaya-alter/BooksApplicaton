@@ -93,14 +93,18 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     BookImage(book, width = 160.dp, height = 220.dp)
-                    Text(
-                        text = book.bookName,
-                        modifier = Modifier
-                            .padding(top = 10.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = book.bookName,
+                            modifier = Modifier
+                                .padding(top = 10.dp).padding(start = 10.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
                         )
+                    }
                     Text(
                         book.authorName,
                         modifier = Modifier
