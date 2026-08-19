@@ -45,7 +45,7 @@ import com.example.trail.data.ReadStatus
 
 @Composable
 fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel: BooksViewModel ) {
-    val userState = bookViewModel.userBookStates.find { it.isbn == book.isbn }
+    val userState = bookViewModel.userBookStates.find { it.bookId == book.id }
     val readStatus = userState?.readStatus ?: ReadStatus.NONE
     val isFavourite = userState?.isFavourite ?: false
     LaunchedEffect(book.id) {
@@ -125,10 +125,10 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                             text = status.displayName,
                             isSelected = readStatus == status,
                             modifier = Modifier.weight(2f),
-                            onClick = { bookViewModel.setReadStatus(book.isbn, status) }
+                            onClick = { bookViewModel.setReadStatus(book.id, status) }
                         )
                     }
-                    IconButton(onClick = { bookViewModel.toggleFavourite(book.isbn) }) {
+                    IconButton(onClick = { bookViewModel.toggleFavourite(book.id) }) {
                         Icon(
                             imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favourite",

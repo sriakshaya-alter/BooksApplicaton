@@ -42,6 +42,7 @@ class BooksViewModel : ViewModel() {
     fun searchBooks(query: String, minRating: Float? = null) {
         viewModelScope.launch {
             _isLoading.value = true
+            _bookList.clear()
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
@@ -132,26 +133,26 @@ class BooksViewModel : ViewModel() {
         }
     }
 
-    fun toggleFavourite(isbn: String) {
-        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+    fun toggleFavourite(bookID:Long) {
+        val index = _userBookStates.indexOfFirst { it.bookId == bookID }
         if (index != -1) {
             _userBookStates[index] = _userBookStates[index].copy(
                 isFavourite = !_userBookStates[index].isFavourite
             )
             removeIfNoAction(index)   // ← reuse
         } else {
-            _userBookStates.add(UserBookState(isbn, isFavourite = true))
+            _userBookStates.add(UserBookState(bookID, isFavourite = true))
         }
     }
 
-    fun setReadStatus(isbn: String, status: ReadStatus) {
-        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+    fun setReadStatus(bookId: Long, status: ReadStatus) {
+        val index = _userBookStates.indexOfFirst { it.bookId == bookId }
         if (index != -1) {
             val newStatus = if (_userBookStates[index].readStatus == status) ReadStatus.NONE else status
             _userBookStates[index] = _userBookStates[index].copy(readStatus = newStatus)
             removeIfNoAction(index)
         } else {
-            _userBookStates.add(UserBookState(isbn, readStatus = status))
+            _userBookStates.add(UserBookState(bookId = bookId, readStatus = status))
         }
     }
 

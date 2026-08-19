@@ -2,7 +2,7 @@ package com.example.trail.data
 
 
 data class UserBookState(
-    val isbn: String,
+    val bookId: Long,
     var readStatus: ReadStatus = ReadStatus.NONE,
     var isFavourite: Boolean = false
 )
