@@ -13,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,21 +53,14 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
         bookViewModel.fetchBookDetails(book.id)
     }
     val currentBook = bookViewModel.bookList.find { it.id == book.id } ?: book
-    if (bookViewModel.isDetailLoading.value) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(color = Color(0xFFA8452A))
-        }
-    } else {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(20.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Row {
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            ) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
@@ -74,79 +68,98 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     )
                 }
             }
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+        }
+
+    ) { innerPadding ->
+        if (bookViewModel.isDetailLoading.value) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                contentAlignment = Alignment.Center
             ) {
-                BookImage(book, width = 160.dp, height = 220.dp)
-                Text(
-                    text = book.bookName,
-                    modifier = Modifier
-                        .padding(top = 10.dp),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-
-                )
-                Text(
-                    book.authorName,
-                    modifier = Modifier
-                        .padding(top = 7.dp),
-                    fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    listOf(
-                        String.format("%.1f ★", currentBook.rating),
-                        "${currentBook.bookPages} pp",
-                        currentBook.year
-                    ).forEach { item ->
-                        SelectionItem(
-                            backgroundColor = ChipFillColor,
-                            text = item.toString()
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                ) {
-                    listOf(ReadStatus.WANT_TO_READ, ReadStatus.READ).forEach { status ->
-                        SelectionItem(
-                            text = status.displayName,
-                            isSelected = readStatus == status,
-                            modifier = Modifier.weight(2f),
-                            onClick = { bookViewModel.setReadStatus(book.id, status) }
-                        )
-                    }
-                    IconButton(onClick = { bookViewModel.toggleFavourite(book.id) }) {
-                        Icon(
-                            imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                            contentDescription = "Favourite",
-                            tint = if (isFavourite) Color(0xFFC2542F) else Color(0xFF2A211B)
-                        )
-                    }
-                }
+                CircularProgressIndicator(color = Color(0xFFA8452A))
             }
-            Column {
+        } else {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(innerPadding)
+                    .padding(horizontal = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    BookImage(book, width = 160.dp, height = 220.dp)
+                    Text(
+                        text = book.bookName,
+                        modifier = Modifier
+                            .padding(top = 10.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
 
-                SectionLabel("ABOUT THIS BOOK")
+                        )
+                    Text(
+                        book.authorName,
+                        modifier = Modifier
+                            .padding(top = 7.dp),
+                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
 
-                Text(
-                    text = currentBook.description,
-                    fontSize = 12.sp,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
-                )
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                    ) {
+                        listOf(
+                            String.format("%.1f ★", currentBook.rating),
+                            "${currentBook.bookPages} pp",
+                            currentBook.year
+                        ).forEach { item ->
+                            SelectionItem(
+                                backgroundColor = ChipFillColor,
+                                text = item.toString()
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                    ) {
+                        listOf(ReadStatus.WANT_TO_READ, ReadStatus.READ).forEach { status ->
+                            SelectionItem(
+                                text = status.displayName,
+                                isSelected = readStatus == status,
+                                modifier = Modifier.weight(2f),
+                                onClick = { bookViewModel.setReadStatus(book.id, status) }
+                            )
+                        }
+                        IconButton(onClick = { bookViewModel.toggleFavourite(book.id) }) {
+                            Icon(
+                                imageVector = if (isFavourite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                contentDescription = "Favourite",
+                                tint = if (isFavourite) Color(0xFFC2542F) else Color(0xFF2A211B)
+                            )
+                        }
+                    }
+                }
+                Column {
+
+                    SectionLabel("ABOUT THIS BOOK")
+
+                    Text(
+                        text = currentBook.description,
+                        fontSize = 12.sp,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
 //            Text(
 //                text = "More",
 //                color = Color(0xFFC2542F),
@@ -165,16 +178,17 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
 //                    .padding(16.dp)
 //            )
 //           }
-            }
-            Column(modifier = Modifier.padding(top = 8.dp)) {
-                Column(modifier = Modifier.padding(top = 8.dp)) {
-                    SectionLabel("DETAILS")
-                    DetailRow("Pages", "${currentBook.bookPages} pp")
-                    DetailRow("Published", currentBook.year)
-                    DetailRow("ISBN", currentBook.isbn)
-                    DetailRow("Rating", String.format("%.1f", currentBook.rating))
                 }
+                Column(modifier = Modifier.padding(top = 8.dp)) {
+                    Column(modifier = Modifier.padding(top = 8.dp)) {
+                        SectionLabel("DETAILS")
+                        DetailRow("Pages", "${currentBook.bookPages} pp")
+                        DetailRow("Published", currentBook.year)
+                        DetailRow("ISBN", currentBook.isbn)
+                        DetailRow("Rating", String.format("%.1f", currentBook.rating))
+                    }
 
+                }
             }
         }
     }
