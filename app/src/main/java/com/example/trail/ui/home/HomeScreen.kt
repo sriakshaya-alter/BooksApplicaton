@@ -117,18 +117,8 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             }
 
             val filteredBooks = bookViewModel.bookList.filter { book ->
-                bookViewModel.selectedFilter.value.matches(book) &&
-                        (bookViewModel.bookSearch.value.isEmpty() ||
-                                book.bookName.contains(
-                                    bookViewModel.bookSearch.value,
-                                    ignoreCase = true
-                                ) ||
-                                book.authorName.contains(
-                                    bookViewModel.bookSearch.value,
-                                    ignoreCase = true
-                                ))
+                bookViewModel.selectedFilter.value.matches(book)
             }
-
 
             LazyColumn {
                 if (filteredBooks.isEmpty()) {

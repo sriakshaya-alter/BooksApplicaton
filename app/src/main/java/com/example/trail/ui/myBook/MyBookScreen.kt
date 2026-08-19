@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.navigation.NavController
 import com.example.trail.data.ReadStatus
 import com.example.trail.data.MyBooksFilter
+import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
 fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
@@ -49,12 +50,16 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
             .padding(top = 20.dp)
             .padding(horizontal = 20.dp)
             .fillMaxWidth()
+    ) {Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = "MyBooks",
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
+    }
         Spacer(modifier = Modifier.height(16.dp))
         Row( modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Center,
@@ -141,7 +146,7 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Uni
                             .align(Alignment.BottomStart)
                             .padding(8.dp)
                             .clip(RoundedCornerShape(4.dp))
-                            .background(Color(0xFF2A211B))
+                            .background(OnBackgroundText.copy(alpha = 0.7f))
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
@@ -157,17 +162,21 @@ fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Uni
 
             if (isFavourite) {
 
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = "Favourite",
-                    tint = Color.White,
+                Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(8.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFF2A211B))
-                        .size(10.dp)
-                )
+                        .background(Color(0xFF2A211B).copy(alpha = 0.7f))
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Favourite",
+                        tint = Color.White,
+                        modifier = Modifier.size(12.dp)
+                    )
+                }
             }
         }
 

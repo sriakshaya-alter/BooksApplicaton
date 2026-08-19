@@ -45,13 +45,12 @@ class BooksViewModel : ViewModel() {
     fun searchBooks(query: String, minRating: Float? = null) {
         viewModelScope.launch {
             _isLoading.value = true
-            _bookList.clear()
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
                 val response = RetrofitInstance.api.searchBooks(query, minRating = minRating)
-                Log.d("API", "Books received: ${response.books.size}")
                 _bookList.clear()
+                Log.d("API", "Books received: ${response.books.size}")
                 response.books.forEach { items ->
                     val book = items.firstOrNull() ?: return@forEach
                     Log.d("API", "Adding book: ${book.title}")
