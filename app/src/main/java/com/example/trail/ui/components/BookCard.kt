@@ -1,6 +1,9 @@
 package com.example.trail.ui.components
 
+import com.example.trail.ui.theme.OutLine
+import com.example.trail.ui.theme.SecondaryText
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,74 +25,106 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.trail.data.BookModel
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.draw.shadow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material3.Icon
+import com.example.trail.ui.theme.Background
+import com.example.trail.ui.theme.Chipfill
+
 
 @Composable
-fun BookCard(book: BookModel) {
+fun BookCard(book: BookModel,onClick:() ->Unit,isBookMarked:Boolean) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xF4E9DA))
+            .background(Background)
+            .clickable { onClick() }
             .padding(12.dp),
 
         ) {
         Row {
-            Box(
-                modifier = Modifier
-                    .width(60.dp)
-                    .height(80.dp)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
-                    .background(Color(book.coverColor)),
-                contentAlignment = Alignment.Center,
-
-                ) {
-                Text(
-                    text = book.bookName,
-                    color = Color.White,
-                    fontSize = 8.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(4.dp)
-                )
-            }
+            BookImage(book)
             Spacer(modifier = Modifier.width(12.dp))
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = book.bookName,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = Color.Black
                 )
                 Text(
                     text = book.authorName,
-                    fontSize = 8.sp,
+                    fontSize = 12.sp,
+                    color = SecondaryText
                 )
-                Row {
-                    Text(
-                        text = book.format,
-                        fontSize = 8.sp,
-                    )
-                    Text(".",
-                        fontSize = 8.sp,
-                        )
-                    Text(
-                        book.bookPages.toString(),
-                        fontSize = 8.sp,
-                    )
-                    Text(
-                        ".",
-                        fontSize = 8.sp,
-                    )
-                    Text(
-                        text = book.year,
-                        fontSize = 8.sp,
-                    )
-                }
+//                Row {
+//                    Text(".",
+//                        fontSize = 8.sp,
+//                        )
+//                    Text(
+//                        book.bookPages.toString(),
+//                        fontSize = 8.sp,
+//                    )
+//                    Text(
+//                        ".",
+//                        fontSize = 8.sp,
+//                    )
+//                    Text(
+//                        text = book.year,
+//                        fontSize = 8.sp,
+//                    )
+//                }
 
             }
+                Icon(
+                    imageVector =  Icons.Default.Bookmark,
+                    contentDescription = "BookMark",
+                    tint = if(isBookMarked) Color(0xFFA8452A) else OutLine
+                )
         }
-        HorizontalDivider(   // ← HR line at bottom of each card
+        HorizontalDivider(
             modifier = Modifier.padding(top = 12.dp),
-            color = Color(0xFFE8DCCC),
+            color = OutLine,
             thickness = 1.dp
         )
+    }
+}
 
+@Composable
+fun BookImage(
+    book: BookModel,
+    width: Dp = 60.dp,
+    height: Dp = 80.dp
+) {
+    Box(
+        modifier = Modifier
+            .width(width)
+            .height(height)
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(book.coverColor))
+    ) {
+        Box(
+            modifier = Modifier
+                .width(6.dp)
+                .height(height)
+                .align(Alignment.CenterStart)
+                .background(Color(0x33300000))
+        )
+
+        Text(
+            text = book.bookName,
+            color = Color.White,
+            fontSize = 8.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(6.dp)
+        )
     }
 }
