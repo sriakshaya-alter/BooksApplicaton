@@ -11,7 +11,7 @@ interface BookDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertBooks(books : List<BookEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrReplaceBook(book : BookEntity)
 
     @Update
@@ -21,7 +21,7 @@ interface BookDao{
     suspend fun getAllBooks():List<BookEntity>
 
     @Query("SELECT * FROM books where bookId = :bookId")
-    suspend fun getBookById(bookId:Long)
+    suspend fun getBookById(bookId:Long): BookEntity?
 
     @Query("SELECT COUNT(*) FROM books")
     suspend fun getBookCount(): Int
