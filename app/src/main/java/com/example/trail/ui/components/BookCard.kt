@@ -114,7 +114,7 @@ fun BookImage(
                 .width(6.dp)
                 .height(height)
                 .align(Alignment.CenterStart)
-                .background(Color(0x33300000))
+                .background(Color(0x33300000).copy(alpha=0.1f))
         )
 
         Text(
