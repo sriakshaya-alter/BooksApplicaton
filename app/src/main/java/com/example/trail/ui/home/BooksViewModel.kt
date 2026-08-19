@@ -16,6 +16,9 @@ import kotlinx.coroutines.launch
 import android.util.Log
 import com.example.trail.BuildConfig
 import com.example.trail.data.MyBooksFilter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
+
 import kotlin.math.min
 
 class BooksViewModel : ViewModel() {
@@ -42,6 +45,7 @@ class BooksViewModel : ViewModel() {
     fun searchBooks(query: String, minRating: Float? = null) {
         viewModelScope.launch {
             _isLoading.value = true
+            _bookList.clear()
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
@@ -67,8 +71,14 @@ class BooksViewModel : ViewModel() {
                 }
                 Log.d("API", "Total books in list: ${_bookList.size}")
             } catch (e: Exception) {
-                Log.e("API", "Error: ${e.message}")
-                _error.value = "Failed to load books: ${e.message}"
+                _error.value = when {
+                    e.message?.contains("401") == true -> "Invalid API key. Please check your configuration."
+                    e.message?.contains("402") == true -> "Your API is finished. So please generate new API key"
+                    e.message?.contains("429") == true -> "Too many requests. Please wait a moment."
+                    e.message?.contains("timeout") == true -> "Connection timed out. Please check your internet."
+                    e.message?.contains("Unable to resolve") == true -> "No internet connection."
+                    else -> "Something went wrong. Please try again."
+                }
             } finally {
                 _isLoading.value = false
             }
@@ -103,13 +113,18 @@ class BooksViewModel : ViewModel() {
         }
     }
 
+    private var searchJob: kotlinx.coroutines.Job? = null
 
     fun onSearchChange(query: String) {
         _bookSearch.value = query
-        if (query.length > 2) {
-            searchBooks(query)
-        } else if (query.isEmpty()) {
-            searchBooks("novel",0.9F)
+        searchJob?.cancel()   // cancel previous search
+        searchJob = viewModelScope.launch {
+            delay(500)   // wait 500ms befor
+            if (query.length > 2) {
+                searchBooks(query)
+            } else if (query.isEmpty()) {
+                searchBooks("novel", 0.9F)
+            }
         }
     }
     private val _selectedFilter = mutableStateOf(BookFilter.ALL)
@@ -132,26 +147,26 @@ class BooksViewModel : ViewModel() {
         }
     }
 
-    fun toggleFavourite(isbn: String) {
-        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+    fun toggleFavourite(bookID:Long) {
+        val index = _userBookStates.indexOfFirst { it.bookId == bookID }
         if (index != -1) {
             _userBookStates[index] = _userBookStates[index].copy(
                 isFavourite = !_userBookStates[index].isFavourite
             )
             removeIfNoAction(index)   // ← reuse
         } else {
-            _userBookStates.add(UserBookState(isbn, isFavourite = true))
+            _userBookStates.add(UserBookState(bookID, isFavourite = true))
         }
     }
 
-    fun setReadStatus(isbn: String, status: ReadStatus) {
-        val index = _userBookStates.indexOfFirst { it.isbn == isbn }
+    fun setReadStatus(bookId: Long, status: ReadStatus) {
+        val index = _userBookStates.indexOfFirst { it.bookId == bookId }
         if (index != -1) {
             val newStatus = if (_userBookStates[index].readStatus == status) ReadStatus.NONE else status
             _userBookStates[index] = _userBookStates[index].copy(readStatus = newStatus)
             removeIfNoAction(index)
         } else {
-            _userBookStates.add(UserBookState(isbn, readStatus = status))
+            _userBookStates.add(UserBookState(bookId = bookId, readStatus = status))
         }
     }
 

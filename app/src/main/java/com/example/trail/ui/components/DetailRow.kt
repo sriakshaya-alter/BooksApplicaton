@@ -16,19 +16,22 @@ import androidx.compose.ui.unit.sp
 import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
-fun DetailRow(label: String, value: String) {
-    Column {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = label, fontSize = 14.sp, color = SecondaryText)
-            Text(text = value, fontSize = 14.sp,
-                color = OnBackgroundText,
-                modifier = Modifier.padding(bottom = 8.dp))
+fun DetailRow(label: String, value: String?) {
+    if (value.isNullOrBlank()) return
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = label, fontSize = 14.sp, color = SecondaryText)
+                Text(
+                    text = value, fontSize = 14.sp,
+                    color = OnBackgroundText,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+            HorizontalDivider(color = Color(0xFFE8DCCC), thickness = 1.dp)
         }
-        HorizontalDivider(color = Color(0xFFE8DCCC), thickness = 1.dp)
     }
-}

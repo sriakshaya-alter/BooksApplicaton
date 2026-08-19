@@ -90,14 +90,17 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
 
             }
             .mapNotNull { state ->
-                bookViewModel.bookList.find { it.isbn == state.isbn }
+                bookViewModel.bookList.find { it.id == state.bookId }
             }
 
         if (myBooks.isEmpty()) {
-            Text(
-                text = "No books yet. Go to Discover and add some!",
-                modifier = Modifier.padding(16.dp)
-            )
+            Box(modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center) {
+                Text(
+                    text = "No books yet. Go to Discover and add some!",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         } else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -113,7 +116,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
 
 @Composable
 fun MyBookCard(book: BookModel, bookViewModel: BooksViewModel,onClick: () -> Unit) {
-    val userState = bookViewModel.userBookStates.find { it.isbn == book.isbn }
+    val userState = bookViewModel.userBookStates.find { it.bookId == book.id }
     val isFavourite = userState?.isFavourite ?: false
     val readStatus = userState?.readStatus ?: "none"
 
