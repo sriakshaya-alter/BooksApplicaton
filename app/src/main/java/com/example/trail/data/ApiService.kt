@@ -9,12 +9,16 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import com.example.trail.BuildConfig
 interface BigBookApiService{
+
+
     @GET("search-books")
     suspend fun searchBooks(
-        @Query("query") query:String,
-        @Query("api-key") apikey: String = BuildConfig.API_KEY,
-       @Query("number") number : Int = 10
-    ):BookSearchResponse
+        @Query("query") query: String,
+        @Query("api-key") apiKey: String = BuildConfig.API_KEY,
+        @Query("number") number: Int = 20,
+        @Query("sort") sort: String = "rating",
+        @Query("min-rating") minRating: Float? = null
+    ): BookSearchResponse
 
     @GET("{bookId}")
     suspend fun getBookDetails(

@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import android.util.Log
 import com.example.trail.BuildConfig
 import com.example.trail.data.MyBooksFilter
+import kotlin.math.min
 
 class BooksViewModel : ViewModel() {
 
@@ -33,18 +34,18 @@ class BooksViewModel : ViewModel() {
 
 
     init{
-        searchBooks("fiction")
+        searchBooks("novel", minRating = 0.8f)
         Log.d("API_KEY_CHECK", "Key: ${BuildConfig.API_KEY}")
 
     }
 
-    fun searchBooks(query: String) {
+    fun searchBooks(query: String, minRating: Float? = null) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
-                val response = RetrofitInstance.api.searchBooks(query)
+                val response = RetrofitInstance.api.searchBooks(query, minRating = minRating)
                 Log.d("API", "Books received: ${response.books.size}")
                 _bookList.clear()
                 response.books.forEach { items ->
@@ -108,7 +109,7 @@ class BooksViewModel : ViewModel() {
         if (query.length > 2) {
             searchBooks(query)
         } else if (query.isEmpty()) {
-            searchBooks("fiction")
+            searchBooks("novel",0.9F)
         }
     }
     private val _selectedFilter = mutableStateOf(BookFilter.ALL)
