@@ -1,5 +1,6 @@
 package com.example.trail.ui.BookDetails
 
+import android.util.Log
 import com.example.trail.ui.components.DetailRow
 import com.example.trail.ui.components.SectionLabel
 import com.example.trail.ui.home.BooksViewModel
@@ -151,15 +152,18 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     }
                 }
                 Column {
+                    if (!currentBook.description.isNullOrBlank()) {
 
-                    SectionLabel("ABOUT THIS BOOK")
+                        SectionLabel("ABOUT THIS BOOK")
 
-                    Text(
-                        text = currentBook.description,
-                        fontSize = 12.sp,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                        Text(
+                            text = currentBook.description,
+                            fontSize = 12.sp,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
 //            Text(
 //                text = "More",
 //                color = Color(0xFFC2542F),
@@ -178,13 +182,14 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
 //                    .padding(16.dp)
 //            )
 //           }
-                }
+
                 Column(modifier = Modifier.padding(top = 8.dp)) {
                     Column(modifier = Modifier.padding(top = 8.dp)) {
                         SectionLabel("DETAILS")
                         DetailRow("Pages", "${currentBook.bookPages} pp")
                         DetailRow("Published", currentBook.year)
                         DetailRow("ISBN", currentBook.isbn)
+                        Log.d("Book isbn",currentBook.isbn)
                         DetailRow("Rating", String.format("%.1f", currentBook.rating))
                     }
 
