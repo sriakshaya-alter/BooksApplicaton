@@ -13,6 +13,8 @@ benchmarkTraceprocessor = "1.4.1"
 navigationCompose = "2.9.8"
 uiGraphics = "1.12.0"
 litertMetadata = "1.4.2"
+ksp = "2.3.9"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,4 +40,7 @@ litert-metadata = { group = "com.google.ai.edge.litert", name = "litert-metadata
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+
 

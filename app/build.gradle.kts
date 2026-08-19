@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 
@@ -66,6 +67,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
 // no version — let BOM manage it
     implementation("androidx.navigation:navigation-compose")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.ui.graphics)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(libs.litert.metadata)

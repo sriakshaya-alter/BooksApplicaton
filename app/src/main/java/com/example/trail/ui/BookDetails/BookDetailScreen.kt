@@ -41,6 +41,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.text.style.TextAlign
 import com.example.trail.data.ReadStatus
 
 
@@ -99,10 +100,10 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                     ) {
                         Text(
                             text = book.bookName,
-                            modifier = Modifier
-                                .padding(top = 10.dp).padding(start = 10.dp),
+                            modifier = Modifier.fillMaxWidth().padding(top=10.dp),
+                            textAlign = TextAlign.Center,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp,
+                            fontSize = 20.sp
                         )
                     }
                     Text(
