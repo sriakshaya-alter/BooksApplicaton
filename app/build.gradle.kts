@@ -72,6 +72,9 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+
     implementation(libs.androidx.ui.graphics)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(libs.litert.metadata)
