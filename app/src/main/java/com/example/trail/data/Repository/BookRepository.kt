@@ -32,13 +32,6 @@ class BookRepository(private val database: AppDatabase) {
         return bookDao.getBookById(bookId)
     }
 
-    suspend fun searchBooksFromApi(query: String, minRating: Float? = null) =
-        RetrofitInstance.api.searchBooks(query, minRating = minRating)
-
-    suspend fun getBookDetailsFromApi(bookId: Long) =
-        RetrofitInstance.api.getBookDetails(bookId)
-
-
     suspend fun getUserBookStates(): List<UserBookStateEntity> {
         return userBookStateDao.getAllBookStatus()
     }

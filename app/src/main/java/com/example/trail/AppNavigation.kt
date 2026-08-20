@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.MaterialTheme
+import com.example.trail.ui.settings.SettingsScreen
 
 
 @Composable
@@ -38,7 +39,7 @@ fun AppNavigation() {
     Scaffold(
         bottomBar = {
 
-            if (currentRoute != "detail/{bookName}") {
+            if (currentRoute != "detail/{bookId}" && currentRoute != "settings") {
                 NavigationBar(
                     containerColor = Surface
                 ) {
@@ -87,6 +88,10 @@ fun AppNavigation() {
                 val book = bookViewModel.bookList.find { it.id == bookId }
                 book?.let { BookDetailScreen(book = it, navController = navController, bookViewModel = bookViewModel ) }
             }
+            composable("settings") {
+                SettingsScreen(navController = navController)
+            }
+
         }
     }
 }

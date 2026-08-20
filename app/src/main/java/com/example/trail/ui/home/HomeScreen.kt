@@ -35,7 +35,10 @@ import androidx.navigation.NavController
 import com.example.trail.data.BookFilter
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import com.example.trail.data.ReadStatus
 
@@ -50,11 +53,22 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             .background(Background)
             .padding(20.dp)
     ) {
-        Text(
-            text = "Discover",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Discover", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+
+            IconButton(onClick = { navController.navigate("settings") }) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = Color(0xFF2A211B)
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = bookViewModel.bookSearch.value,
@@ -78,7 +92,18 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
             ),
             singleLine = true,
         )
-        if (bookViewModel.isLoading.value) {
+        if (bookViewModel.needsApiKey.value) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Please enter your BigBook API key to continue")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = { navController.navigate("settings") }) {
+                        Text("Go to Settings")
+                    }
+                }
+            }
+        }
+        else if (bookViewModel.isLoading.value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center

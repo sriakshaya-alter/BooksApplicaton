@@ -10,11 +10,10 @@ import java.util.concurrent.TimeUnit
 import com.example.trail.BuildConfig
 interface BigBookApiService{
 
-
     @GET("search-books")
     suspend fun searchBooks(
         @Query("query") query: String,
-        @Query("api-key") apiKey: String = BuildConfig.API_KEY,
+        @Query("api-key") apiKey: String, //= BuildConfig.API_KEY,
         @Query("number") number: Int = 20,
         @Query("sort") sort: String = "rating",
         @Query("min-rating") minRating: Float? = null
@@ -23,13 +22,12 @@ interface BigBookApiService{
     @GET("{bookId}")
     suspend fun getBookDetails(
         @Path("bookId") bookId : Long,
-        @Query("api-key") apiKey: String = BuildConfig.API_KEY,
+        @Query("api-key") apiKey: String, //= BuildConfig.API_KEY,
     ): BookDetailApiModel
 }
 
 object RetrofitInstance {
     private const val BASE_URL = "https://api.bigbookapi.com/"
-
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)

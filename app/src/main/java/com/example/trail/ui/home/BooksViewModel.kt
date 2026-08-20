@@ -6,6 +6,7 @@ import com.example.trail.data.toBookEntity
 import com.example.trail.data.toBookModel
 
 
+
 import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -25,10 +26,12 @@ import com.example.trail.data.MyBooksFilter
 import com.example.trail.data.local.UserBookStateEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 
-import kotlin.math.min
+
 
 class BooksViewModel(application: Application) : AndroidViewModel(application) {
+    private var currentApiKey = "" //BuildConfig.API_KEY
 
     private val repository = (application as BookApplication).repository
 
@@ -44,33 +47,42 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
     private val _error = mutableStateOf<String?>(null)
     val error: State<String?> = _error
 
-    init{
+    private val settingsDataStore = (application as BookApplication).settingsDataStore
+    private val _needsApiKey = mutableStateOf(false)
+    val needsApiKey: State<Boolean> = _needsApiKey
+
+    init {
+
         viewModelScope.launch {
-            try {
-                _isLoading.value = true
-                val savedStates = repository.getUserBookStates()
+            settingsDataStore.apiKeyFlow.collect { savedKey ->
+                if (savedKey.isNotEmpty() && currentApiKey != savedKey) {
+                    currentApiKey = savedKey
+                    _needsApiKey.value = false
 
-                savedStates.forEach { entity ->
-                    _userBookStates.add(
-                        UserBookState(
-                            entity.bookId, ReadStatus.valueOf(entity.readStatus), entity.isFavourite
-                        )
-                    )
+                    val count = repository.getBookCount()
+                    if (count == 0) {
+                        searchBooks("novel", minRating = 0.8f)
+                    } else {
+                        loadBooksFromDb()
+                    }
+                } else if (savedKey.isEmpty()) {
+                    _needsApiKey.value = true
+                    _isLoading.value = false
                 }
-
-                val count = repository.getBookCount()
-                if (count == 0) {
-                    searchBooks("novel", minRating = 0.8f)
-                } else {
-                    loadBooksFromDb()
-                    Log.d("API_KEY_CHECK", "Key: ${BuildConfig.API_KEY}")
-                }
-            }catch (e: Exception){
-                e.message
             }
         }
-
+        viewModelScope.launch {
+            try {
+                val savedStates = repository.getUserBookStates()
+                savedStates.forEach { entity ->
+                    _userBookStates.add(
+                        UserBookState(entity.bookId, ReadStatus.valueOf(entity.readStatus), entity.isFavourite)
+                    )
+                }
+            } catch (e: Exception) { }
+        }
     }
+
 
     private suspend fun loadBooksFromDb() {
             try {
@@ -92,7 +104,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
-                val response = RetrofitInstance.api.searchBooks(query, minRating = minRating)
+                val response = RetrofitInstance.api.searchBooks(query, minRating = minRating, apiKey = currentApiKey)
                 _bookList.clear()
                 Log.d("API", "Books received: ${response.books.size}")
                 response.books.forEach { items ->
@@ -147,7 +159,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     return@launch
                 }
-                val detail = RetrofitInstance.api.getBookDetails(bookId)
+                val detail = RetrofitInstance.api.getBookDetails(bookId, apiKey = currentApiKey,)
                 val index = _bookList.indexOfFirst { it.id == bookId }
                 if(index != -1){
                    val updatedBook = _bookList[index].copy(
