@@ -44,6 +44,7 @@ fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {
     val readCount = bookViewModel.userBookStates.count { it.readStatus == ReadStatus.READ }
     val wantToReadCount = bookViewModel.userBookStates.count { it.readStatus == ReadStatus.WANT_TO_READ }
     val favouriteCount = bookViewModel.userBookStates.count { it.isFavourite }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

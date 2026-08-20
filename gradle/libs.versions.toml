@@ -13,7 +13,7 @@ benchmarkTraceprocessor = "1.4.1"
 navigationCompose = "2.9.8"
 uiGraphics = "1.12.0"
 litertMetadata = "1.4.2"
-ksp = "2.3.9"
+lifecycleViewmodelKtx = "2.11.0"
 
 
 [libraries]
@@ -36,11 +36,13 @@ androidx-benchmark-traceprocessor = { group = "androidx.benchmark", name = "benc
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 litert-metadata = { group = "com.google.ai.edge.litert", name = "litert-metadata", version.ref = "litertMetadata" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+
 
 
 

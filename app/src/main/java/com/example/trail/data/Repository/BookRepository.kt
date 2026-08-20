@@ -1,10 +1,10 @@
 package com.example.trail.data.Repository
 
+import com.example.trail.data.RetrofitInstance
 import com.example.trail.data.local.AppDatabase
 import com.example.trail.data.local.BookEntity
 import com.example.trail.data.local.UserBookStateEntity
-import com.example.trail.data.RetrofitInstance
-import com.example.trail.data.ReadStatus
+
 
 class BookRepository(private val database: AppDatabase) {
 
@@ -32,8 +32,6 @@ class BookRepository(private val database: AppDatabase) {
         return bookDao.getBookById(bookId)
     }
 
-
-
     suspend fun searchBooksFromApi(query: String, minRating: Float? = null) =
         RetrofitInstance.api.searchBooks(query, minRating = minRating)
 
@@ -53,7 +51,4 @@ class BookRepository(private val database: AppDatabase) {
         return userBookStateDao.getBookStateById(bookId)
     }
 
-    suspend fun getReadCount() = userBookStateDao.getReadBooksCount()
-    suspend fun getWantToReadCount() = userBookStateDao.getWantToReadBooksCount()
-    suspend fun getFavouriteCount() = userBookStateDao.getFavouriteCount()
 }

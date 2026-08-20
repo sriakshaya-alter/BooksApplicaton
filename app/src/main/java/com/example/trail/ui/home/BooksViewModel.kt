@@ -2,7 +2,11 @@ package com.example.trail.ui.home
 
 import com.example.trail.data.UserBookState
 import com.example.trail.data.ReadStatus
+import com.example.trail.data.toBookEntity
+import com.example.trail.data.toBookModel
 
+
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +18,19 @@ import com.example.trail.data.BookModel
 import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import com.example.trail.BookApplication
 import com.example.trail.BuildConfig
 import com.example.trail.data.MyBooksFilter
+import com.example.trail.data.local.UserBookStateEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Job
 
 import kotlin.math.min
 
-class BooksViewModel : ViewModel() {
+class BooksViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = (application as BookApplication).repository
 
     private val _bookList = mutableStateListOf<BookModel>()
     val bookList: List<BookModel> get() = _bookList
@@ -35,13 +44,48 @@ class BooksViewModel : ViewModel() {
     private val _error = mutableStateOf<String?>(null)
     val error: State<String?> = _error
 
-
     init{
-        searchBooks("novel", minRating = 0.8f)
-        Log.d("API_KEY_CHECK", "Key: ${BuildConfig.API_KEY}")
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val savedStates = repository.getUserBookStates()
+
+                savedStates.forEach { entity ->
+                    _userBookStates.add(
+                        UserBookState(
+                            entity.bookId, ReadStatus.valueOf(entity.readStatus), entity.isFavourite
+                        )
+                    )
+                }
+
+                val count = repository.getBookCount()
+                if (count == 0) {
+                    searchBooks("novel", minRating = 0.8f)
+                } else {
+                    loadBooksFromDb()
+                    Log.d("API_KEY_CHECK", "Key: ${BuildConfig.API_KEY}")
+                }
+            }catch (e: Exception){
+                e.message
+            }
+        }
 
     }
 
+    private suspend fun loadBooksFromDb() {
+            try {
+                if (_bookSearch.value.isEmpty()) {
+                    _isLoading.value = true
+                }
+                val books = repository.getBooksFromDb()
+                _bookList.clear()
+                _bookList.addAll(books.map { it.toBookModel() })
+            }catch(e: Exception){
+                e.message
+            }finally {
+                _isLoading.value = false
+            }
+    }
     fun searchBooks(query: String, minRating: Float? = null) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -54,8 +98,8 @@ class BooksViewModel : ViewModel() {
                 response.books.forEach { items ->
                     val book = items.firstOrNull() ?: return@forEach
                     Log.d("API", "Adding book: ${book.title}")
-                    _bookList.add(
-                        BookModel(
+
+                    val bookModel = BookModel(
                             id = book.id,
                             bookName = book.title,
                             authorName = book.authors?.firstOrNull()?.name ?: "Unknown",
@@ -66,7 +110,8 @@ class BooksViewModel : ViewModel() {
                             isbn = "",
                             rating = book.rating?.average ?: 0.0
                         )
-                    )
+                    _bookList.add(bookModel)
+                    repository.saveBooks(listOf(bookModel.toBookEntity()))
                 }
                 Log.d("API", "Total books in list: ${_bookList.size}")
             } catch (e: Exception) {
@@ -93,16 +138,27 @@ class BooksViewModel : ViewModel() {
         viewModelScope.launch {
             _isDetailLoading.value = true
             try{
+
+                val dbBook = repository.getBookById(bookId)
+                if(dbBook?.isDetailsFetched == true){
+                    val index = _bookList.indexOfFirst { it.id == bookId }
+                    if (index != -1) {
+                        _bookList[index] = dbBook.toBookModel()
+                    }
+                    return@launch
+                }
                 val detail = RetrofitInstance.api.getBookDetails(bookId)
                 val index = _bookList.indexOfFirst { it.id == bookId }
                 if(index != -1){
-                    _bookList[index] = _bookList[index].copy(
+                   val updatedBook = _bookList[index].copy(
                         bookPages = detail.number_of_pages?.toInt() ?: 0,
                         year = detail.publish_date?.toInt()?.toString() ?: "",
                         description = detail.description ?: "",
                         isbn = detail.identifiers?.isbn_13 ?: ""
                     )
+                    _bookList[index] = updatedBook
                     _selectedBook.value = _bookList[index]
+                    repository.updateBookDetails(updatedBook.toBookEntity().copy(isDetailsFetched = true))
                 }
             }catch(e: Exception){
                 Log.e("API", "Detail error: ${e.message}")
@@ -122,7 +178,7 @@ class BooksViewModel : ViewModel() {
             if (query.length > 2) {
                 searchBooks(query)
             } else if (query.isEmpty()) {
-                searchBooks("novel", 0.9F)
+                loadBooksFromDb()
             }
         }
     }
@@ -135,7 +191,6 @@ class BooksViewModel : ViewModel() {
     fun onFilterChange(filter: BookFilter) {
         _selectedFilter.value = filter
     }
-
 
     private val _userBookStates = mutableStateListOf<UserBookState>()
     val userBookStates: List<UserBookState> get()= _userBookStates
@@ -152,10 +207,11 @@ class BooksViewModel : ViewModel() {
             _userBookStates[index] = _userBookStates[index].copy(
                 isFavourite = !_userBookStates[index].isFavourite
             )
-            removeIfNoAction(index)   // ← reuse
+            removeIfNoAction(index)
         } else {
             _userBookStates.add(UserBookState(bookID, isFavourite = true))
         }
+        saveUserBookState(bookID)
     }
 
     fun setReadStatus(bookId: Long, status: ReadStatus) {
@@ -167,14 +223,24 @@ class BooksViewModel : ViewModel() {
         } else {
             _userBookStates.add(UserBookState(bookId = bookId, readStatus = status))
         }
+        saveUserBookState(bookId)
+    }
+
+    private fun saveUserBookState(bookId:Long){
+        viewModelScope.launch {
+                val state = _userBookStates.find { it.bookId == bookId }
+                if(state != null) {
+                    repository.saveUserBookState(UserBookStateEntity(
+                        state.bookId,state.readStatus.name,state.isFavourite
+                    ))
+                }
+        }
     }
 
     private val _myBooksFilter = mutableStateOf(MyBooksFilter.ALL)
     val myBooksFilter: State<MyBooksFilter> = _myBooksFilter
-
     fun onMyBooksFilterChange(filter: MyBooksFilter) {
         _myBooksFilter.value = filter
     }
-
 }
 

@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
+    id("com.google.devtools.ksp")
 }
 
 
@@ -18,9 +18,7 @@ val apiKey = localProps.getProperty("API_KEY") ?: ""
 
 android {
     namespace = "com.example.trail"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.trail"
@@ -60,6 +58,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui)
 
@@ -67,9 +66,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
 // no version — let BOM manage it
     implementation("androidx.navigation:navigation-compose")
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
     implementation(libs.androidx.ui.graphics)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation(libs.litert.metadata)
@@ -84,5 +86,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
 }

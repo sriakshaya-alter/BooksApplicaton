@@ -194,7 +194,6 @@ fun BookDetailScreen(book: BookModel, navController: NavController,bookViewModel
                         DetailRow("Pages", "${currentBook.bookPages} pp")
                         DetailRow("Published", currentBook.year)
                         DetailRow("ISBN", currentBook.isbn)
-                        Log.d("Book isbn",currentBook.isbn)
                         DetailRow("Rating", String.format("%.1f", currentBook.rating))
                     }
 
