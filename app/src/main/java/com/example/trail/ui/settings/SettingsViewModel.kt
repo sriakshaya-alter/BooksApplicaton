@@ -9,7 +9,6 @@ import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-
 class SettingsViewModel (application: Application) : AndroidViewModel(application){
 
     private val settingsDataStore = (application as BookApplication).settingsDataStore

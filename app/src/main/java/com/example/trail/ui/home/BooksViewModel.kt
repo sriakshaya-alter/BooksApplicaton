@@ -5,8 +5,6 @@ import com.example.trail.data.ReadStatus
 import com.example.trail.data.toBookEntity
 import com.example.trail.data.toBookModel
 
-
-
 import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -27,7 +25,7 @@ import com.example.trail.data.local.UserBookStateEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
-
+import kotlinx.coroutines.Dispatchers
 
 
 class BooksViewModel(application: Application) : AndroidViewModel(application) {
@@ -52,18 +50,20 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
     val needsApiKey: State<Boolean> = _needsApiKey
 
     init {
-
-        viewModelScope.launch {
+        _isLoading.value = true
+        viewModelScope.launch(Dispatchers.Main) {
             settingsDataStore.apiKeyFlow.collect { savedKey ->
                 if (savedKey.isNotEmpty() && currentApiKey != savedKey) {
                     currentApiKey = savedKey
                     _needsApiKey.value = false
-
                     val count = repository.getBookCount()
                     if (count == 0) {
                         searchBooks("novel", minRating = 0.8f)
                     } else {
+                        val startTime = System.currentTimeMillis()    // ← end timer
                         loadBooksFromDb()
+                        val endTime = System.currentTimeMillis()    // ← end timer
+                        Log.d("BENCHMARK for initail loading", "searchBooks took: ${endTime - startTime}ms")
                     }
                 } else if (savedKey.isEmpty()) {
                     _needsApiKey.value = true
@@ -71,7 +71,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
-        viewModelScope.launch {
+        viewModelScope.launch() {
             try {
                 val savedStates = repository.getUserBookStates()
                 savedStates.forEach { entity ->
@@ -85,28 +85,31 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private suspend fun loadBooksFromDb() {
-            try {
-                if (_bookSearch.value.isEmpty()) {
-                    _isLoading.value = true
-                }
-                val books = repository.getBooksFromDb()
-                _bookList.clear()
-                _bookList.addAll(books.map { it.toBookModel() })
-            }catch(e: Exception){
-                e.message
-            }finally {
-                _isLoading.value = false
-            }
+        if (_bookSearch.value.isNotEmpty()) return
+        try {
+            _isLoading.value = true
+            val books = repository.getBooksFromDb()
+            _bookList.clear()
+            _bookList.addAll(books.map { it.toBookModel() })
+        } catch(e: Exception) {
+            e.message
+        } finally {
+            _isLoading.value = false
+        }
     }
+
     fun searchBooks(query: String, minRating: Float? = null) {
-        viewModelScope.launch {
+        viewModelScope.launch() {
             _isLoading.value = true
             _error.value = null
             try {
                 Log.d("API", "Searching for: $query")
+                val startTime = System.currentTimeMillis()
                 val response = RetrofitInstance.api.searchBooks(query, minRating = minRating, apiKey = currentApiKey)
-                _bookList.clear()
-                Log.d("API", "Books received: ${response.books.size}")
+                 _bookList.clear()
+                val endTime = System.currentTimeMillis()    // ← end timer
+                Log.d("BENCHMARK", "searchBooks took: ${endTime - startTime}ms")
+                //Log.d("API", "Books received: ${response.books.size}")
                 response.books.forEach { items ->
                     val book = items.firstOrNull() ?: return@forEach
                     Log.d("API", "Adding book: ${book.title}")
