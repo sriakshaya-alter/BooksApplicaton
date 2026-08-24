@@ -1,9 +1,8 @@
 package com.example.trail.data.Repository
 
-import com.example.trail.data.RetrofitInstance
-import com.example.trail.data.local.AppDatabase
-import com.example.trail.data.local.BookEntity
-import com.example.trail.data.local.UserBookStateEntity
+import com.example.trail.shared.AppDatabase
+import com.example.trail.shared.BookEntity
+import com.example.trail.shared.UserBookStateEntity
 
 
 class BookRepository(private val database: AppDatabase) {

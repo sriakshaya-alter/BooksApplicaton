@@ -12,15 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.trail.shared.BookFilter
 import com.example.trail.shared.BookModel
-import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.example.trail.BookApplication
 import com.example.trail.shared.MyBooksFilter
-import com.example.trail.data.local.UserBookStateEntity
+import com.example.trail.shared.UserBookStateEntity
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.Dispatchers
 
 
 class BooksViewModel(application: Application) : AndroidViewModel(application) {

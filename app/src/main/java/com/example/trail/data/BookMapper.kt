@@ -1,6 +1,6 @@
 package com.example.trail.data
 
-import com.example.trail.data.local.BookEntity
+import com.example.trail.shared.BookEntity
 import com.example.trail.shared.BookModel
 
 fun BookEntity.toBookModel() = BookModel(

@@ -1,7 +1,6 @@
 package com.example.trail.shared
 
 import kotlinx.serialization.Serializable
-
 @Serializable
 data class BookSearchResponse(
     val books: List<List<BookApiModel>>,

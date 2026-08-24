@@ -3,10 +3,10 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.lint)
     kotlin("plugin.serialization") version "2.3.0"
+    id("com.google.devtools.ksp")
+
 }
-
 kotlin {
-
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
@@ -67,6 +67,12 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:2.3.7")
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+                //sqldelight
+
+
+                implementation("androidx.room:room-runtime:2.8.4")
+                //implementation("androidx.room:room-ktx:2.8.4")
+
             }
         }
 
@@ -82,6 +88,7 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
+
             }
         }
 
@@ -102,8 +109,14 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
+
             }
         }
     }
-
+}
+dependencies {
+    add("kspAndroid", "androidx.room:room-compiler:2.8.4")
+    add("kspIosX64", "androidx.room:room-compiler:2.8.4")
+    add("kspIosArm64", "androidx.room:room-compiler:2.8.4")
+    add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.4")
 }

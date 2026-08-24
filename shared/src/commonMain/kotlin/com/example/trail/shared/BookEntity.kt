@@ -1,8 +1,7 @@
-package com.example.trail.data.local
+package com.example.trail.shared
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
 @Entity(tableName = "books")
 data class BookEntity(
     @PrimaryKey val bookId:Long,

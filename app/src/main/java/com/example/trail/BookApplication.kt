@@ -1,7 +1,7 @@
 package com.example.trail
 
 import android.app.Application
-import com.example.trail.data.local.AppDatabase
+import com.example.trail.shared.AppDatabase
 import com.example.trail.data.Repository.BookRepository
 import com.example.trail.data.DataStore.SettingsDataStore
 import com.example.trail.shared.BookApiService
