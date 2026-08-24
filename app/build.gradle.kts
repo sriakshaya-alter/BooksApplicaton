@@ -50,6 +50,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation("io.ktor:ktor-client-android:2.3.7")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.benchmark.traceprocessor)
