@@ -1,9 +1,4 @@
-package com.example.trail.data.Repository
-
-import com.example.trail.shared.AppDatabase
-import com.example.trail.shared.BookEntity
-import com.example.trail.shared.UserBookStateEntity
-
+package com.example.trail.shared
 
 class BookRepository(private val database: AppDatabase) {
 
