@@ -4,6 +4,8 @@ import android.app.Application
 import com.example.trail.data.local.AppDatabase
 import com.example.trail.data.Repository.BookRepository
 import com.example.trail.data.DataStore.SettingsDataStore
+import com.example.trail.shared.BookApiService
+import com.example.trail.shared.createHttpClient
 
 class BookApplication : Application() {
 
@@ -11,4 +13,8 @@ class BookApplication : Application() {
     val repository by lazy { BookRepository(database) }
 
     val settingsDataStore by lazy { SettingsDataStore(this) }
+
+    val bookApiService by lazy {
+        BookApiService(createHttpClient())
+    }
 }

@@ -28,6 +28,9 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = (application as BookApplication).repository
 
+    private val bookApiService = (application as BookApplication).bookApiService
+
+
     private val _bookList = mutableStateListOf<BookModel>()
     val bookList: List<BookModel> get() = _bookList
 
@@ -100,7 +103,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 Log.d("API", "Searching for: $query")
                 val startTime = System.currentTimeMillis()
-                val response = RetrofitInstance.api.searchBooks(query, minRating = minRating, apiKey = currentApiKey)
+                val response = bookApiService.searchBooks(query, currentApiKey, minRating = minRating)
                  _bookList.clear()
                 val endTime = System.currentTimeMillis()    // ← end timer
                 Log.d("BENCHMARK", "searchBooks took: ${endTime - startTime}ms")
@@ -120,10 +123,10 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                             isbn = "",
                             rating = book.rating?.average ?: 0.0
                         )
-                    viewModelScope.launch(Dispatchers.IO) {
+
                         _bookList.add(bookModel)
                         _isLoading.value = true
-                    }
+
 
                    // _bookList.add(bookModel)
                     repository.saveBooks(listOf(bookModel.toBookEntity()))
@@ -162,7 +165,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     return@launch
                 }
-                val detail = RetrofitInstance.api.getBookDetails(bookId, apiKey = currentApiKey,)
+                val detail = bookApiService.getBookDetails(bookId, currentApiKey)
                 val index = _bookList.indexOfFirst { it.id == bookId }
                 if(index != -1){
                    val updatedBook = _bookList[index].copy(
