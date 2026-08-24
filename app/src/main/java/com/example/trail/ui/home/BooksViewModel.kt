@@ -1,7 +1,7 @@
 package com.example.trail.ui.home
 
-import com.example.trail.data.UserBookState
-import com.example.trail.data.ReadStatus
+import com.example.trail.shared.UserBookState
+import com.example.trail.shared.ReadStatus
 import com.example.trail.data.toBookEntity
 import com.example.trail.data.toBookModel
 
@@ -9,22 +9,17 @@ import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.trail.data.BookFilter
-import com.example.trail.data.BookModel
+import com.example.trail.shared.BookFilter
+import com.example.trail.shared.BookModel
 import com.example.trail.data.RetrofitInstance
 import kotlinx.coroutines.launch
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.example.trail.BookApplication
-import com.example.trail.BuildConfig
-import com.example.trail.data.MyBooksFilter
+import com.example.trail.shared.MyBooksFilter
 import com.example.trail.data.local.UserBookStateEntity
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.Dispatchers
 
 
@@ -51,7 +46,7 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         _isLoading.value = true
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch() {
             settingsDataStore.apiKeyFlow.collect { savedKey ->
                 if (savedKey.isNotEmpty() && currentApiKey != savedKey) {
                     currentApiKey = savedKey
@@ -125,7 +120,12 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                             isbn = "",
                             rating = book.rating?.average ?: 0.0
                         )
-                    _bookList.add(bookModel)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        _bookList.add(bookModel)
+                        _isLoading.value = true
+                    }
+
+                   // _bookList.add(bookModel)
                     repository.saveBooks(listOf(bookModel.toBookEntity()))
                 }
                 Log.d("API", "Total books in list: ${_bookList.size}")

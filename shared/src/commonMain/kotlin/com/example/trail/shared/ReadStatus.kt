@@ -1,4 +1,4 @@
-package com.example.trail.data
+package com.example.trail.shared
 
 enum class ReadStatus(val displayName: String) {
     NONE(""),

@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.trail.data.BookFilter
+import com.example.trail.shared.BookFilter
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.filled.Settings
@@ -40,7 +40,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
-import com.example.trail.data.ReadStatus
+import com.example.trail.shared.ReadStatus
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier.Companion,
@@ -157,6 +157,7 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion,
                         )
                     }
                 } else {
+
                     items(filteredBooks) { book ->
                         val isBookmarked = bookViewModel.userBookStates.any {
                             it.bookId == book.id && (it.isFavourite || it.readStatus != ReadStatus.NONE)

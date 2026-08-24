@@ -24,14 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.trail.data.BookModel
+import com.example.trail.shared.BookModel
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.draw.shadow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Icon
 import com.example.trail.ui.theme.Background
-import com.example.trail.ui.theme.Chipfill
 
 
 @Composable

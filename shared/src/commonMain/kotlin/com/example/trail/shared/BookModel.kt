@@ -1,5 +1,4 @@
-package com.example.trail.data
-
+package com.example.trail.shared
 
 data class BookModel(
     var id: Long = 0,
@@ -12,4 +11,3 @@ data class BookModel(
     var isbn: String = "",
     var rating: Double = 0.0    // ← add rating
 )
-

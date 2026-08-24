@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "trail"
 include(":app")
+include(":shared")

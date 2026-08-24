@@ -1,5 +1,4 @@
-package com.example.trail.data
-
+package com.example.trail.shared
 
 data class UserBookState(
     val bookId: Long,

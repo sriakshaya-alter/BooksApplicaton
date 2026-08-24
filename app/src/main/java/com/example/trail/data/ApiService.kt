@@ -7,7 +7,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
-import com.example.trail.BuildConfig
+import com.example.trail.shared.BookDetailApiModel
+import com.example.trail.shared.BookSearchResponse
+
 interface BigBookApiService{
 
     @GET("search-books")

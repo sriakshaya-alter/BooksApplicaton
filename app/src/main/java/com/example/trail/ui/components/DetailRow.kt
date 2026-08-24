@@ -17,7 +17,9 @@ import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
 fun DetailRow(label: String, value: String?) {
-    if (value.isNullOrBlank()) return
+    if (value.isNullOrBlank()) {
+        return
+    } else {
         Column {
             Row(
                 modifier = Modifier
@@ -35,3 +37,4 @@ fun DetailRow(label: String, value: String?) {
             HorizontalDivider(color = Color(0xFFE8DCCC), thickness = 1.dp)
         }
     }
+}

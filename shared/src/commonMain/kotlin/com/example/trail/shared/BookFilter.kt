@@ -1,4 +1,4 @@
-package com.example.trail.data
+package com.example.trail.shared
 
 enum class BookFilter(val displayName: String) {
     ALL("All Format"),

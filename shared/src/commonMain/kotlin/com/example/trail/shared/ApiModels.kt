@@ -1,4 +1,4 @@
-package com.example.trail.data
+package com.example.trail.shared
 
 data class BookSearchResponse(
     val books: List<List<BookApiModel>>,

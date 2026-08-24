@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.trail.data.BookModel
+import com.example.trail.shared.BookModel
 import com.example.trail.ui.components.SelectionItem
 import com.example.trail.ui.home.BooksViewModel
 import androidx.compose.foundation.layout.height
@@ -34,8 +34,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.foundation.layout.Arrangement
 import androidx.navigation.NavController
-import com.example.trail.data.ReadStatus
-import com.example.trail.data.MyBooksFilter
+import com.example.trail.shared.ReadStatus
+import com.example.trail.shared.MyBooksFilter
 import com.example.trail.ui.theme.OnBackgroundText
 
 @Composable
