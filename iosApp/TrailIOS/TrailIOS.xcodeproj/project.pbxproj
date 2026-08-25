@@ -49,9 +49,22 @@
 		BA9173A1303D60C100252424 /* sharedKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = sharedKit.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BA9173B6303D948D00252424 /* Exceptions for "TrailIOS" folder in "TrailIOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Untitled.swift,
+			);
+			target = BA917375303D5E8F00252424 /* TrailIOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BA917378303D5E8F00252424 /* TrailIOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BA9173B6303D948D00252424 /* Exceptions for "TrailIOS" folder in "TrailIOS" target */,
+			);
 			path = TrailIOS;
 			sourceTree = "<group>";
 		};

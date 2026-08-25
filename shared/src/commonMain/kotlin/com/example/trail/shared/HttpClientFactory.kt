@@ -5,6 +5,9 @@ import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 
 fun createHttpClient(): HttpClient {
     return HttpClient {
@@ -16,3 +19,16 @@ fun createHttpClient(): HttpClient {
         }
     }
 }
+fun createBookApiService(): BookApiService {
+    return BookApiService(createHttpClient())
+}
+
+
+
+fun createDatabase(): AppDatabase {
+    return getDatabaseBuilder()
+        .setDriver(BundledSQLiteDriver())
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()
+}
+

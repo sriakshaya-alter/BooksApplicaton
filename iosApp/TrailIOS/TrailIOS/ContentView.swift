@@ -1,21 +1,22 @@
-//
-//  ContentView.swift
-//  TrailIOS
-//
-//  Created by Akshaya on 25/08/26.
-//
-
+import SwiftUI
 import sharedKit
 
-import SwiftUI
-
 struct ContentView: View {
+    @StateObject private var viewModel = BooksViewModel()
+
     var body: some View {
-        VStack {
-           Text("Tail Books")
-                .font(.largeTitle)
+        TabView {
+            DiscoverView()
+                .tabItem {
+                    Label("Discover", systemImage: "magnifyingglass")
+                }
+
+            MyBooksView()
+                .tabItem {
+                    Label("My Books", systemImage: "books.vertical")
+                }
         }
-        .padding()
+        .environmentObject(viewModel)  // ← moved here, applies to all tabs
     }
 }
 

@@ -72,6 +72,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation("androidx.sqlite:sqlite-bundled:2.5.0")
+
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
                 implementation("io.ktor:ktor-client-core:2.3.7")
