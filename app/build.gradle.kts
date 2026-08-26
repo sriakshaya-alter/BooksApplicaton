@@ -32,9 +32,7 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
         }
     }
     compileOptions {
@@ -50,6 +48,8 @@ android {
 dependencies {
     implementation(project(":shared"))
     implementation("io.ktor:ktor-client-android:2.3.7")
+
+    implementation("androidx.compose.runtime:runtime")
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

@@ -244,11 +244,16 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
+    //id("com.android.library")
     alias(libs.plugins.android.lint)
     kotlin("plugin.serialization") version "2.3.0"
     id("com.google.devtools.ksp")
+    alias(libs.plugins.jetbrainsCompose)
+
+// ← add this
 }
 
 kotlin {
@@ -305,6 +310,10 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
                 implementation("androidx.room:room-runtime:2.8.4")
                 implementation("androidx.sqlite:sqlite-bundled:2.5.0")
+                implementation(compose.runtime)        // ← add
+                implementation(compose.foundation)     // ← add
+                implementation(compose.material3)      // ← add
+                implementation(compose.ui)
             }
         }
 
