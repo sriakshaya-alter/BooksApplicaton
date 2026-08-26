@@ -8,7 +8,6 @@ plugins {
 }
 
 
-
 val localProps = Properties()
 val localPropsFile = rootProject.file("local.properties")
 if (localPropsFile.exists()) {

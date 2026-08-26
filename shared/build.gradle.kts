@@ -1,3 +1,246 @@
+//import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+//
+//plugins {
+//    alias(libs.plugins.kotlin.multiplatform)
+//    //alias(libs.plugins.android.kotlin.multiplatform.library)
+//    //id("com.android.library") version "1.9.3"
+//    alias(libs.plugins.android.lint)
+//    kotlin("plugin.serialization") version "2.3.0"
+//    id("com.google.devtools.ksp")
+//    alias(libs.plugins.kotlin.compose)
+//    alias(libs.plugins.jetbrainsCompose)
+//
+//}
+//kotlin {
+//    compilerOptions {
+//        freeCompilerArgs.add("-Xexpect-actual-classes")
+//    }
+//    // Target declarations - add or remove as needed below. These define
+//    // which platforms this KMP module supports.
+//    // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
+//    android {
+//        namespace = "com.example.trail.shared"
+//        compileSdk {
+//            version = release(37)
+//        }
+//        minSdk = 24
+//
+//        withHostTestBuilder {
+//        }
+//
+//        withDeviceTestBuilder {
+//            sourceSetTreeName = "test"
+//        }.configure {
+//            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        }
+//    }
+//
+//    // For iOS targets, this is also where you should
+//    // configure native binary output. For more information, see:
+//    // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
+//
+//    // A step-by-step guide on how to include this library in an XCode
+//    // project can be found here:
+//    // https://developer.android.com/kotlin/multiplatform/migrate
+//    val xcfName = "sharedKit"
+//    val xcf = XCFramework(xcfName)
+//
+//    iosX64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//    iosArm64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//    iosSimulatorArm64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//
+//    // Source set declarations.
+//    // Declaring a target automatically creates a source set with the same name. By default, the
+//    // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
+//    // common to share sources between related targets.
+//    // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
+//    sourceSets {
+//        commonMain {
+//            dependencies {
+//                implementation(compose.runtime)
+//
+//                implementation(libs.kotlin.stdlib)
+//                // Add KMP dependencies here
+//                implementation("io.ktor:ktor-client-core:2.3.7")
+//                implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+//                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+//                //sqldelight
+//
+//
+//                implementation("androidx.room:room-runtime:2.8.4")
+//                //implementation("androidx.room:room-ktx:2.8.4")
+//
+//            }
+//        }
+//
+//        commonTest {
+//            dependencies {
+//                implementation(libs.kotlin.test)
+//            }
+//        }
+//
+//        androidMain {
+//            dependencies {
+//                implementation("io.ktor:ktor-client-android:2.3.7")
+//                // Add Android-specific dependencies here. Note that this source set depends on
+//                // commonMain by default and will correctly pull the Android artifacts of any KMP
+//                // dependencies declared in commonMain.
+//
+//            }
+//        }
+//
+//        getByName("androidDeviceTest") {
+//            dependencies {
+//
+//                implementation(libs.androidx.core)
+//                implementation(libs.androidx.junit)
+//                implementation(libs.androidx.runner)
+//            }
+//        }
+//
+//        iosMain {
+//            dependencies {
+//                implementation("io.ktor:ktor-client-darwin:2.3.7")
+//                // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
+//                // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
+//                // part of KMP’s default source set hierarchy. Note that this source set depends
+//                // on common by default and will correctly pull the iOS artifacts of any
+//                // KMP dependencies declared in commonMain.
+//
+//            }
+//        }
+//    }
+//}
+//dependencies {
+//    add("kspAndroid", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosX64", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosArm64", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.4")
+//}
+
+//import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+//
+//plugins {
+//    alias(libs.plugins.kotlin.multiplatform)
+//    //alias(libs.plugins.android.kotlin.multiplatform.library)
+//    id("com.android.library")
+//    //alias(libs.plugins.android.lint)
+//    kotlin("plugin.serialization") version "2.3.0"
+//    id("com.google.devtools.ksp")
+//    alias(libs.plugins.jetbrainsCompose)
+//    alias(libs.plugins.kotlin.compose)
+//}
+//kotlin {
+//    compilerOptions {
+//        freeCompilerArgs.add("-Xexpect-actual-classes")
+//    }
+//
+//    android {
+//        namespace = "com.example.trail.shared"
+//        compileSdk {
+//            version = release(37)
+//        }
+//        minSdk = 24
+//
+//        withHostTestBuilder {
+//        }
+//
+//        withDeviceTestBuilder {
+//            sourceSetTreeName = "test"
+//        }.configure {
+//            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        }
+//    }
+//
+//    val xcfName = "sharedKit"
+//    val xcf = XCFramework(xcfName)
+//
+//    iosX64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//    iosArm64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//    iosSimulatorArm64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
+//
+//    sourceSets {
+//        commonMain {
+//            dependencies {
+//                implementation(libs.kotlin.stdlib)
+//                implementation("io.ktor:ktor-client-core:2.3.7")
+//                implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+//                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+//                implementation("androidx.room:room-runtime:2.8.4")
+//                implementation("androidx.sqlite:sqlite-bundled:2.5.0")
+//            }
+//        }
+//
+//        commonTest {
+//            dependencies {
+//                implementation(libs.kotlin.test)
+//            }
+//        }
+//
+//        androidMain {
+//            dependencies {
+//                implementation("io.ktor:ktor-client-android:2.3.7")
+//            }
+//        }
+//
+//        getByName("androidDeviceTest") {
+//            dependencies {
+//                implementation(libs.androidx.core)
+//                implementation(libs.androidx.junit)
+//                implementation(libs.androidx.runner)
+//            }
+//        }
+//
+//        iosMain {
+//            dependencies {
+//                implementation("io.ktor:ktor-client-darwin:2.3.7")
+//            }
+//        }
+//    }
+//}
+//
+//dependencies {
+//    add("kspAndroid", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosX64", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosArm64", "androidx.room:room-compiler:2.8.4")
+//    add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.4")
+//}
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -6,15 +249,13 @@ plugins {
     alias(libs.plugins.android.lint)
     kotlin("plugin.serialization") version "2.3.0"
     id("com.google.devtools.ksp")
-
 }
+
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
-    // Target declarations - add or remove as needed below. These define
-    // which platforms this KMP module supports.
-    // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
+
     android {
         namespace = "com.example.trail.shared"
         compileSdk {
@@ -22,8 +263,7 @@ kotlin {
         }
         minSdk = 24
 
-        withHostTestBuilder {
-        }
+        withHostTestBuilder {}
 
         withDeviceTestBuilder {
             sourceSetTreeName = "test"
@@ -32,13 +272,6 @@ kotlin {
         }
     }
 
-    // For iOS targets, this is also where you should
-    // configure native binary output. For more information, see:
-    // https://kotlinlang.org/docs/multiplatform-build-native-binaries.html#build-xcframeworks
-
-    // A step-by-step guide on how to include this library in an XCode
-    // project can be found here:
-    // https://developer.android.com/kotlin/multiplatform/migrate
     val xcfName = "sharedKit"
     val xcf = XCFramework(xcfName)
 
@@ -63,28 +296,15 @@ kotlin {
         }
     }
 
-
-    // Source set declarations.
-    // Declaring a target automatically creates a source set with the same name. By default, the
-    // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
-    // common to share sources between related targets.
-    // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
         commonMain {
             dependencies {
-                implementation("androidx.sqlite:sqlite-bundled:2.5.0")
-
                 implementation(libs.kotlin.stdlib)
-                // Add KMP dependencies here
                 implementation("io.ktor:ktor-client-core:2.3.7")
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
-                //sqldelight
-
-
                 implementation("androidx.room:room-runtime:2.8.4")
-                //implementation("androidx.room:room-ktx:2.8.4")
-
+                implementation("androidx.sqlite:sqlite-bundled:2.5.0")
             }
         }
 
@@ -97,16 +317,11 @@ kotlin {
         androidMain {
             dependencies {
                 implementation("io.ktor:ktor-client-android:2.3.7")
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
-
             }
         }
 
         getByName("androidDeviceTest") {
             dependencies {
-
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.junit)
                 implementation(libs.androidx.runner)
@@ -116,19 +331,15 @@ kotlin {
         iosMain {
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:2.3.7")
-                // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
-                // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
-                // part of KMP’s default source set hierarchy. Note that this source set depends
-                // on common by default and will correctly pull the iOS artifacts of any
-                // KMP dependencies declared in commonMain.
-
             }
         }
     }
 }
+
 dependencies {
     add("kspAndroid", "androidx.room:room-compiler:2.8.4")
     add("kspIosX64", "androidx.room:room-compiler:2.8.4")
     add("kspIosArm64", "androidx.room:room-compiler:2.8.4")
     add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.4")
 }
+
