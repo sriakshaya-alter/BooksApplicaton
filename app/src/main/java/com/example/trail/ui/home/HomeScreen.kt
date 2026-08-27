@@ -1,8 +1,10 @@
 package com.example.trail.ui.home
-import com.example.trail.ui.components.BookCard
-import com.example.trail.ui.theme.SelectedColor
 
-import androidx.compose.foundation.BorderStroke
+import com.example.trail.ui.components.BookCard
+import com.example.trail.ui.components.SelectionItem
+import com.example.trail.shared.ui.theme.TrailColors.SecondaryText
+import com.example.trail.shared.ui.theme.TrailColors.Background
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,9 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -31,39 +31,56 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.trail.data.BookFilter
+import androidx.navigation.NavController
+import com.example.trail.shared.BookFilter
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.Alignment
+import com.example.trail.shared.ReadStatus
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
-    val bookViewModel: BooksViewModel = viewModel()
-
+fun HomeScreen(modifier: Modifier = Modifier.Companion,
+               navController: NavController,
+               bookViewModel: BooksViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxSize()
-            .background(Color(0xF4E9DA))
+            .background(Background)
             .padding(20.dp)
-
     ) {
-        Text(
-            text = "Discover",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Discover", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+
+            IconButton(onClick = { navController.navigate("settings") }) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = Color(0xFF2A211B)
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = bookViewModel.bookSearch.value,
             onValueChange = { bookViewModel.onSearchChange(it) },
             modifier = Modifier
                 .fillMaxWidth(),
-
             placeholder = { Text("Search", color = Color.Black) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
-                    tint = Color(0xFF8A7A6B)
+                    tint = SecondaryText
                 )
             },
             shape = RoundedCornerShape(32.dp),
@@ -75,64 +92,86 @@ fun HomeScreen(modifier: Modifier = Modifier.Companion)  {
             ),
             singleLine = true,
         )
-
-
-        Box {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 6.dp),
-                horizontalArrangement = Arrangement.Center
-            )
-            {
-                BookFilter.entries.forEach { item ->
-                    val isSelected = item == bookViewModel.selectedFilter.value
-                    OutlinedButton(
-                        onClick = { bookViewModel.onFilterChange(item) },
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = if (isSelected) SelectedColor else Color.Transparent
-                        ),
-                        border = BorderStroke(1.dp, Color(0xFFE8DCCC)),
-                        modifier = Modifier
-                            .padding(5.dp)
-                    ) {
-                        Text(text = item.displayName, color = Color(0xFF2A211B), fontSize = 8.sp)
+        if (bookViewModel.needsApiKey.value) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Please enter your BigBook API key to continue")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = { navController.navigate("settings") }) {
+                        Text("Go to Settings")
                     }
                 }
             }
         }
-
-
-        val filteredBooks = bookViewModel.bookList.filter { book ->
-            val matchesFormat = bookViewModel.selectedFilter.value == BookFilter.ALL ||
-                    book.format == bookViewModel.selectedFilter.value.displayName
-            val matchesSearch = bookViewModel.bookSearch.value.isEmpty() ||
-                    book.bookName.contains(bookViewModel.bookSearch.value, ignoreCase = true) ||
-                    book.authorName.contains(bookViewModel.bookSearch.value, ignoreCase = true)
-            matchesFormat && matchesSearch
-        }
-
-        LazyColumn {
-            if (filteredBooks.isEmpty()) {
-                item {
-                    Text(
-                        text = "No books found",
+        else if (bookViewModel.isLoading.value) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = Color(0xFFA8452A))
+            }
+        } else if (bookViewModel.error.value != null) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = bookViewModel.error.value ?: "Error")
+            }
+        } else {
+            Box {
+                if (bookViewModel.bookSearch.value.isNotEmpty()) {
+                    Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center
+                            .horizontalScroll(rememberScrollState())
+                            .padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     )
-                }
-            } else {
-                items(filteredBooks) { book ->
-                    BookCard(book)
+                    {
+                        BookFilter.entries.forEach { item ->
+                            val isSelected = item == bookViewModel.selectedFilter.value
+                            SelectionItem(
+                                text = item.displayName,
+                                isSelected = isSelected,
+                                modifier = Modifier.padding(0.dp),
+                                onClick = { bookViewModel.onFilterChange(item) }
+                            )
+                        }
+
+                    }
                 }
             }
+
+            val filteredBooks = bookViewModel.bookList.filter { book ->
+                bookViewModel.selectedFilter.value.matches(book)
+            }
+
+            LazyColumn {
+                if (filteredBooks.isEmpty()) {
+                    item {
+                        Text(
+                            text = "No books found",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                } else {
+
+                    items(filteredBooks) { book ->
+                        val isBookmarked = bookViewModel.userBookStates.any {
+                            it.bookId == book.id && (it.isFavourite || it.readStatus != ReadStatus.NONE)
+                        }
+                        BookCard(
+                            book = book,
+                            onClick = { navController.navigate("detail/${book.id}") },
+                            isBookMarked = isBookmarked
+                        )
+                    }
+
+                }
+            }
+
         }
-
-
     }
 }
-
-

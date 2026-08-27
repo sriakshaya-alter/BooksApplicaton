@@ -2,4 +2,25 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    id("com.google.devtools.ksp") version "2.3.10" apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.android.kotlin.multiplatform.library) apply false
+    alias(libs.plugins.android.lint) apply false
+    alias(libs.plugins.jetbrainsCompose) apply false
+
 }
+//plugins {
+//    alias(libs.plugins.android.application) apply false
+//    alias(libs.plugins.kotlin.compose) apply false
+//    alias(libs.plugins.compose.multiplatform) apply false
+//    alias(libs.plugins.kotlin.multiplatform) apply false
+//    alias(libs.plugins.android.kotlin.multiplatform.library) apply false
+//    alias(libs.plugins.android.lint) apply false
+//    id("com.google.devtools.ksp") version "2.3.10" apply false
+//    //alias(libs.plugins.compose.compiler) apply false
+//}
+
+
+
+
+
