@@ -243,6 +243,7 @@
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
+
 plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.multiplatform)
@@ -280,12 +281,12 @@ kotlin {
     val xcfName = "sharedKit"
     val xcf = XCFramework(xcfName)
 
-    iosX64 {
-        binaries.framework {
-            baseName = xcfName
-            xcf.add(this)
-        }
-    }
+//    iosX64 {
+//        binaries.framework {
+//            baseName = xcfName
+//            xcf.add(this)
+//        }
+//    }
 
     iosArm64 {
         binaries.framework {
@@ -304,6 +305,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
                 implementation(libs.kotlin.stdlib)
                 implementation("io.ktor:ktor-client-core:2.3.7")
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
@@ -314,8 +316,7 @@ kotlin {
                 implementation(compose.foundation)     // ← add
                 implementation(compose.material3)      // ← add
                 implementation(compose.ui)
-                implementation("androidx.navigation:navigation-compose:2.9.8")
-                implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1")
+                //implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.9.0")
             }
         }
 
@@ -349,7 +350,7 @@ kotlin {
 
 dependencies {
     add("kspAndroid", "androidx.room:room-compiler:2.8.4")
-    add("kspIosX64", "androidx.room:room-compiler:2.8.4")
+    //add("kspIosX64", "androidx.room:room-compiler:2.8.4")
     add("kspIosArm64", "androidx.room:room-compiler:2.8.4")
     add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.4")
 }

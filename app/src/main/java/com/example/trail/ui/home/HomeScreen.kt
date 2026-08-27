@@ -2,8 +2,8 @@ package com.example.trail.ui.home
 
 import com.example.trail.ui.components.BookCard
 import com.example.trail.ui.components.SelectionItem
-import com.example.trail.ui.theme.SecondaryText
-import com.example.trail.ui.theme.Background
+import com.example.trail.shared.ui.theme.TrailColors.SecondaryText
+import com.example.trail.shared.ui.theme.TrailColors.Background
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -36,7 +36,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.navigation.NavController
 import com.example.trail.shared.ReadStatus
 import com.example.trail.shared.MyBooksFilter
-import com.example.trail.ui.theme.OnBackgroundText
+import com.example.trail.shared.ui.theme.TrailColors.OnBackgroundText
 
 @Composable
 fun MyBooksScreen(bookViewModel: BooksViewModel,navController: NavController) {

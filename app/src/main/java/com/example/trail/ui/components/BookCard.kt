@@ -1,7 +1,7 @@
 package com.example.trail.ui.components
 
-import com.example.trail.ui.theme.OutLine
-import com.example.trail.ui.theme.SecondaryText
+import com.example.trail.shared.ui.theme.TrailColors.OutLine
+import com.example.trail.shared.ui.theme.TrailColors.SecondaryText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,7 +30,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.Icon
-import com.example.trail.ui.theme.Background
+import com.example.trail.shared.ui.theme.TrailColors.Background
 
 
 @Composable

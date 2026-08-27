@@ -122,10 +122,8 @@ class BooksViewModel(application: Application) : AndroidViewModel(application) {
                             rating = book.rating?.average ?: 0.0
                         )
 
-                        _bookList.add(bookModel)
-                        _isLoading.value = true
-
-
+                    _bookList.add(bookModel)
+                    _isLoading.value = true
                    // _bookList.add(bookModel)
                     repository.saveBooks(listOf(bookModel.toBookEntity()))
                 }

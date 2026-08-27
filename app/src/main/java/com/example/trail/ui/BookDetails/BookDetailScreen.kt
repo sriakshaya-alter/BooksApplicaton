@@ -4,7 +4,7 @@ import com.example.trail.ui.components.DetailRow
 import com.example.trail.ui.components.SectionLabel
 import com.example.trail.ui.home.BooksViewModel
 import com.example.trail.ui.components.SelectionItem
-import com.example.trail.ui.theme.ChipFillColor
+import com.example.trail.shared.ui.theme.TrailColors.ChipFillColor
 import com.example.trail.ui.components.BookImage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

@@ -1,7 +1,7 @@
 package com.example.trail
 
 
-import com.example.trail.ui.theme.Surface
+import com.example.trail.shared.ui.theme.TrailColors.Surface
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book

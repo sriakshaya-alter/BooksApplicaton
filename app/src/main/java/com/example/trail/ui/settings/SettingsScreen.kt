@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.compose.material3.TopAppBarDefaults
-import com.example.trail.ui.theme.Background
+import com.example.trail.shared.ui.theme.TrailColors.Background
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.layout.size

@@ -3,7 +3,7 @@ package com.example.trail.ui.components
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.sp
-import com.example.trail.ui.theme.SecondaryText
+import com.example.trail.shared.ui.theme.TrailColors.SecondaryText
 
 @Composable
 fun SectionLabel(text: String) {

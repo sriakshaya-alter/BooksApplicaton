@@ -1,9 +1,8 @@
 package com.example.trail.ui.components
 
-import com.example.trail.ui.theme.Background
-import com.example.trail.ui.theme.OnBackgroundText
-import com.example.trail.ui.theme.OutLine
-import com.example.trail.ui.theme.Surface
+import com.example.trail.shared.ui.theme.TrailColors.OnBackgroundText
+import com.example.trail.shared.ui.theme.TrailColors.OutLine
+import com.example.trail.shared.ui.theme.TrailColors.Surface
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,8 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import com.example.trail.ui.theme.OnBackgroundText
-import com.example.trail.ui.theme.Chipfill
+import com.example.trail.shared.ui.theme.TrailColors.Chipfill
 
 @Composable
 fun SelectionItem(
