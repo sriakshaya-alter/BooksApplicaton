@@ -314,6 +314,8 @@ kotlin {
                 implementation(compose.foundation)     // ← add
                 implementation(compose.material3)      // ← add
                 implementation(compose.ui)
+                implementation("androidx.navigation:navigation-compose:2.9.8")
+                implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1")
             }
         }
 
